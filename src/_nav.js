@@ -27,7 +27,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Reports',
-    to: '/reports',
+    to: '/table',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
