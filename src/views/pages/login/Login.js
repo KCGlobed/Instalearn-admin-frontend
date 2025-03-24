@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   CButton,
   CCard,
@@ -12,11 +14,58 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilLockLocked, cilUser } from '@coreui/icons';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Redirect after login
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    console.log("Login Attempted with Email:", email);
+    // console.log("API Endpoint:", process.env.REACT_APP_BASE_URL);
+  
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/users/login/`,
+        { email, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+  
+      console.log("API Response:", response.data);
+  
+      if (response.data.status === 'success') {
+        localStorage.setItem('access_token', response.data.data.token.access);
+        localStorage.setItem('refresh_token', response.data.data.token.refresh);
+        localStorage.setItem('user_role', response.data.data.user_role);
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: response.data.message,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+  
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error("Login Error:", error); // Yeh backend se error dega
+  
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed!',
+        text: error.response?.data?.message || 'Invalid credentials',
+      });
+    }
+  };
+  
+
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -25,14 +74,20 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm onSubmit={handleLogin}>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,11 +97,14 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton type="submit" color="primary" className="px-4">
                           Login
                         </CButton>
                       </CCol>
@@ -80,7 +138,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

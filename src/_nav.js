@@ -43,13 +43,19 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Course',
-    to: '/buttons',
+    to: '/course',
     icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+    
     items: [
       {
         component: CNavItem,
+        name: 'Course ',
+        to: '/course',
+      },
+      {
+        component: CNavItem,
         name: 'Upload Videos ',
-        to: '/buttons/buttons',
+        to: '/videos',
       },
       {
         component: CNavItem,
