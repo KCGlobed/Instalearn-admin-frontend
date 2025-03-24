@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -7,6 +7,8 @@ import './scss/style.scss'
 
 // We use those styles to show code examples, you should remove them in your application.
 import './scss/examples.scss'
+import { ModalContext } from './Context'
+import CommonModal from './components/CommonModal'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
@@ -21,6 +23,10 @@ const Tableview = React.lazy(() => import('./views/pages/Reports/Reports'))
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState("");
+  const [modalSize, setModalSize] = useState("");
+  const [data, setData] = useState({});
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1])
@@ -32,11 +38,31 @@ const App = () => {
     if (isColorModeSet()) {
       return
     }
-
     setColorMode(storedTheme)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  
+  const handleModalData = (data, size = "xl") => {
+    setModalData(data);
+    setModalSize(size);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
+    <ModalContext.Provider
+    value={{
+      handleModalData,
+      closeModal,
+      setData,
+      data,
+      isModalOpen,
+      modalData,
+    }}
+    >
     <HashRouter>
       <Suspense
         fallback={
@@ -55,6 +81,14 @@ const App = () => {
         </Routes>
       </Suspense>
     </HashRouter>
+    <CommonModal
+          handleModalData={handleModalData}
+          isModalOpen={isModalOpen}
+          modalData={modalData}
+          modalSize={modalSize}
+          closeModal={closeModal}
+     />
+    </ModalContext.Provider>
   )
 }
 

@@ -1,0 +1,33 @@
+export const DiscountReportData = Array.from({ length: 20 }, (_, index) => ({
+    id: `DR-${index + 1}`,
+    DiscountGeneratedBy: `Admin ${index % 5 + 1}`,
+    course: `Course ${index % 10 + 1}`,
+    platform: ["Udemy Business", "Coursera", "LinkedIn Learning", "edX", "Skillshare"][index % 5], 
+    DiscountAmount: `$${Math.floor(Math.random() * 500)}`,
+    DiscountType: index % 2 === 0 ? "Flat" : "Percentage",
+    DiscountCouponID: `COUPON-${1000 + index}`,
+    DiscountCouponExpDate: `2025-06-${(index % 28) + 1}`,
+    DiscountPercentage: index % 2 === 0 ? `${Math.floor(Math.random() * 50)}%` : "N/A",
+    GeneratedDate: `2025-03-${(index % 28) + 1}`,
+    ActualPrice: `$${Math.floor(Math.random() * 1000)}`,
+    AfterDiscountPrice: `$${Math.floor(Math.random() * 800)}`,
+    discountCode: `SAVE${Math.floor(Math.random() * 500)}`, 
+    numberOfUses: Math.floor(Math.random() * 100), 
+    minimumPurchase: `$${Math.floor(Math.random() * 200)}`, 
+    eligibilityCriteria: index % 2 === 0 ? "New Users Only" : "All Users",
+    usageRestrictions: index % 3 === 0 ? "One-time Use" : "Multiple Use Allowed",
+    maxDiscountLimit: `$${Math.floor(Math.random() * 300)}`, 
+    description: index % 3 === 0 ? "Special discount for early enrollments" : "Limited-time offer on selected courses",
+    institutionName: ["Harvard Online", "MITx", "Stanford Digital", "Udemy Business", "Coursera for Business"][index % 5],
+    subscriptionPlan: index % 2 === 0 ? "Enterprise Plan" : "Individual Plan",
+    userType: ["Student", "Corporate", "Educator", "Freelancer"][index % 4],
+    region: ["USA", "UK", "India", "Australia", "Canada"][index % 5],
+    paymentRestrictions: index % 3 === 0 ? "Credit Card Only" : "All Payment Methods Allowed",
+    discountValidity: `2025-03-${(index % 28) + 1} to 2025-06-${(index % 28) + 1}`,
+    redemptionLimit: index % 2 === 0 ? "5 times per user" : "Unlimited use",
+    courseCategory: ["Technology", "Business", "Design", "Health", "Finance"][index % 5],
+    bundleDiscountEligibility: index % 2 === 0 ? "Valid on Bundles" : "Single Course Only",
+}));
+
+
+

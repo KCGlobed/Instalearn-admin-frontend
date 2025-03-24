@@ -65,3 +65,103 @@ body {
     --cui-footer-bg: var(--cui-body-bg);
   }
 }
+
+.action_button{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.delete_icon{
+  margin-left:4px;
+}
+.view_icon{
+  margin-right: 4px;
+}
+
+
+
+.fancy-table-container {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+  // max-width: 90%;
+  // margin: auto;
+  overflow: hidden;
+}
+
+/* Table Header - Reduced Font Size */
+.fancy-table .ant-table-thead > tr > th {
+  background: #7F56D9;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px; 
+  // border-radius: 6px;
+  box-shadow: inset 0 -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.fancy-table .ant-table-tbody > tr {
+  font-size: 13px;  /* Reduced from default */
+}
+
+.fancy-table .ant-table-tbody > tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.fancy-table .ant-table-tbody > tr:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Action Buttons - Reduced Size */
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.view-btn,
+.edit-btn,
+.delete-btn {
+  font-size: 12px;  /* Reduced from 14px */
+  padding: 4px 10px;  /* Smaller buttons */
+  border-radius: 16px;
+  transition: all 0.3s;
+}
+
+.view-btn { background: #4caf50; color: white; }
+.edit-btn { background: #ff9800; color: white; }
+.delete-btn { background: #f44336; color: white; }
+
+.view-btn:hover { background: #388e3c; transform: scale(1.04); }
+.edit-btn:hover { background: #e68900; transform: scale(1.04); }
+.delete-btn:hover { background: #d32f2f; transform: scale(1.04); }
+
+
+
+:where(.css-dev-only-do-not-override-tjsggz).ant-table-wrapper .ant-table-thead >tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before, :where(.css-dev-only-do-not-override-tjsggz).ant-table-wrapper .ant-table-thead >tr>td:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 0;
+  width: 0px;
+  height: 1.6em;
+  background-color: #f0f0f0;
+  transform: translateY(-50%);
+  transition: background-color 0.2s;
+  content: "";
+}
+
+.tab-pane{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+@media (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+      max-width: 1400px;
+  }
+}
