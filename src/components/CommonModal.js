@@ -5,8 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 const modalSizes = {
   xl: 1200,
   lg: 800,
-  md: 400,
-  sm: 300,
+  md: 600,
+  sm: 400,
 };
 
 const CommonModal = ({ isModalOpen, modalData, modalSize = "md", closeModal }) => {

@@ -6,6 +6,7 @@ import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
 import { DiscountReportData } from "../../../_dummyData/discountReportData";
+import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
 
 const DiscountReport = () => {
@@ -98,39 +99,47 @@ const DiscountReport = () => {
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
-                    <Button type="dashed" className="export-btn">
+                    <Button type="dashed" className="edit-btn">
                         Excel
                     </Button>
-                    <Button type="dashed" className="export-btn">
-                        PDF
+                    <Button type="dashed" className="edit-btn">
+                        Pdf
                     </Button>
-                    <Button type="danger" className="delete-btn">
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)} >
                         Delete
                     </Button>
                 </div>
             ),
         },
     ];
-
+    const handleDeteleUser =(item)=>{
+        const userReportDelete = <DeleteUserReportModal  />
+        handleModalData(userReportDelete, "md")
+    }
 
     return (
         <div className="fancy-table-container">
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px" }}>
-                <Input
-                    placeholder="Search in all fields"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
-                />
-                <Button type="primary" onClick={handleSearch}>
-                    Search
-                </Button>
-                <Button type="default" onClick={exportToPDF}>
-                    Download PDF
-                </Button>
-                <Button type="default" onClick={exportToExcel}>
-                    Download Excel
-                </Button>
+            <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
+                <div className="table_search" >
+                    <Input
+                        placeholder="Search in all fields"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onPressEnter={handleSearch}
+                    />
+                    <Button type="primary" onClick={handleSearch} >
+                        Search
+                    </Button>
+                </div>
+                <div>
+                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
+                        Download PDF
+                    </Button>
+                    <Button type="default" onClick={exportToExcel}>
+                        Download Excel
+                    </Button>
+                </div>
+
             </div>
             <Table
                 columns={columns}

@@ -1,31 +1,28 @@
 import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions } from "antd";
+import { Table, Button, Input, Descriptions, Switch } from "antd";
 import { jsPDF } from "jspdf";
 import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
+import CreateBadge from "../../modals/CreateBadge";
+import EditBadge from "../../modals/editBadge";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
 
 
-const UserReport = () => {
+const Badge = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
     const modalContext = useContext(ModalContext);
     const { handleModalData } = modalContext;
 
-  
     const handleView = (selectedUser) => {
         console.log(selectedUser)
         const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />
         handleModalData(addCollateral, "lg")
-    }
-    
-    const handleDeteleUser =(item)=>{
-        const userReportDelete = <DeleteUserReportModal  />
-        handleModalData(userReportDelete, "md")
+
     }
 
     const handleChange = (pagination, filters, sorter) => {
@@ -38,7 +35,7 @@ const UserReport = () => {
                 value.toString().toLowerCase().includes(searchText.toLowerCase())
             )
         );
-        setFilteredData(filtered);
+        setFilteredData(filtered.length > 0 ? filtered : []);
     };
 
     const exportToPDF = () => {
@@ -63,15 +60,15 @@ const UserReport = () => {
     const columns = [
         { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
         { title: "Age", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Email", dataIndex: "email", key: "email", width: 150,sorter: (a, b) => a.email.localeCompare(b.email) },
-        { title: "Phone Number", dataIndex: "ph_number", key: "ph_number", width: 150,sorter: (a, b) => a.ph_number - b.ph_number },
-        { title: "Address", dataIndex: "address", key: "address", width: 150,sorter: (a, b) => a.address.localeCompare(b.address) },
-        { title: "City", dataIndex: "city", key: "city", width: 150,sorter: (a, b) => a.city.localeCompare(b.city)},
-        { title: "State", dataIndex: "state", key: "state", width: 150,sorter: (a, b) => a.state.localeCompare(b.state) },
-        { title: "Country", dataIndex: "country", key: "country", width: 150,sorter: (a, b) => a.country.localeCompare(b.country) },
-        { title: "Pincode", dataIndex: "pincode", key: "pincode", width: 150,sorter: (a, b) => a.pincode - b.pincode },
+        { title: "Email", dataIndex: "email", key: "email", width: 150 },
+        { title: "Phone Number", dataIndex: "ph_number", key: "ph_number", width: 150 },
+        { title: "Address", dataIndex: "address", key: "address", width: 150 },
+        { title: "City", dataIndex: "city", key: "city", width: 150 },
+        { title: "State", dataIndex: "state", key: "state", width: 150 },
+        { title: "Country", dataIndex: "country", key: "country", width: 150 },
+        { title: "Pincode", dataIndex: "pincode", key: "pincode", width: 150 },
         { title: "Last Login", dataIndex: "last_Login", key: "last_Login", width: 150 },
-        { title: "Active", dataIndex: "isActive", key: "isActive", width: 150 ,sorter: (a, b) => a.isActive.localeCompare(b.isActive)},
+        { title: "Active", dataIndex: "isActive", key: "isActive", width: 150 },
         { title: "Permission", dataIndex: "permission", key: "permission", width: 150 },
         { title: "Courses", dataIndex: "courses", width: 150, key: "courses", render: (courses) => courses.map(c => `${c.course_name} (${c.progress}%)`).join(", ") },
         { title: "Wishlist", dataIndex: "wishlist", width: 150, key: "wishlist", render: (wishlist) => wishlist.join(", ") },
@@ -83,6 +80,20 @@ const UserReport = () => {
         { title: "Enrolled Date", dataIndex: "enrolled_date", key: "enrolled_date", width: 150 },
         { title: "Subscription Type", dataIndex: "subscription_type", key: "subscription_type", width: 150 },
         { title: "Last Course Activity", dataIndex: "last_course_activity", key: "last_course_activity", width: 150 },
+        { title: "Active",
+          key: "active",
+          width: 150 ,
+          render:()=>(
+            <>
+             <div className="switch_item">
+                <Switch defaultChecked  />
+             </div>
+         
+            </>
+          ),
+
+        
+        },
 
         {
             title: "Actions",
@@ -92,13 +103,17 @@ const UserReport = () => {
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
+                    <Button type="dashed" className="edit-btn" onClick={()=>EditBadgeModal()}>
+                        Edit
+                    </Button>
+                
                     <Button type="dashed" className="edit-btn">
-                        Excel
+                        Approve
                     </Button>
                     <Button type="dashed" className="edit-btn">
-                        Pdf
+                        Rejected
                     </Button>
-                    <Button type="danger" className="delete-btn" onClick={()=>handleDeteleUser(item)}>
+                    <Button type="danger" className="delete-btn" onClick={()=>handleDeteleUser()}>
                         Delete
                     </Button>
                 </div>
@@ -108,7 +123,18 @@ const UserReport = () => {
         },
     ];
 
-
+    const CreateBadgeModal=()=>{
+        const create = <CreateBadge />
+        handleModalData(create, "md")
+    }
+    const EditBadgeModal=()=>{
+        const EditBadgeModal = <EditBadge />
+        handleModalData(EditBadgeModal, "md")
+    }
+    const handleDeteleUser =(item)=>{
+        const userReportDelete = <DeleteUserReportModal  />
+        handleModalData(userReportDelete, "sm")
+    }
 
 
     return (
@@ -129,8 +155,11 @@ const UserReport = () => {
                  <Button type="default" onClick={exportToPDF} style={{marginRight:"5px"}}>
                     Download PDF
                  </Button>
-                 <Button type="default" onClick={exportToExcel}>
+                 <Button type="default" onClick={exportToExcel} style={{marginRight:"5px"}}>
                     Download Excel
+                 </Button>
+                 <Button type="default"  className="create_badgebtn" onClick={()=>CreateBadgeModal()}>
+                    Create Badge
                  </Button>
                </div>
               
@@ -141,9 +170,11 @@ const UserReport = () => {
                 onChange={handleChange}
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
+                locale={{ emptyText: "No data found" }}
+                tableLayout="fixed" 
             />
         </div>
     );
 };
 
-export default UserReport;
+export default Badge;

@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
+import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
 export const profileData = Array.from({ length: 20 }, (_, index) => ({
     user_id: `U-${1000 + index}`,
@@ -143,7 +144,7 @@ const ProfileReport = () => {
         XLSX.writeFile(workbook, "table_data.xlsx");
     };
 
-  const profileColumns = [
+    const profileColumns = [
         { title: "User ID", dataIndex: "user_id", key: "user_id", width: 120 },
         { title: "Name", dataIndex: "user_name", key: "user_name", width: 150, sorter: (a, b) => a.user_name.localeCompare(b.user_name) },
         { title: "Email", dataIndex: "email", key: "email", width: 200 },
@@ -165,36 +166,53 @@ const ProfileReport = () => {
             fixed: "right",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button type="primary" onClick={() => handleView(item)}>View</Button>
-                    <Button type="dashed">Excel</Button>
-                    <Button type="dashed">PDF</Button>
-                    <Button type="danger">Delete</Button>
+                    <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
+                        View
+                    </Button>
+                    <Button type="dashed" className="edit-btn">
+                        Excel
+                    </Button>
+                    <Button type="dashed" className="edit-btn">
+                        Pdf
+                    </Button>
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()} >
+                        Delete
+                    </Button>
                 </div>
             ),
             width: 180
         },
     ];
-    
+
+    const handleDeteleUser =(item)=>{
+        const userReportDelete = <DeleteUserReportModal  />
+        handleModalData(userReportDelete, "md")
+    }
 
 
     return (
         <div className="fancy-table-container">
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px" }}>
-                <Input
-                    placeholder="Search in all fields"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
-                />
-                <Button type="primary" onClick={handleSearch}>
-                    Search
-                </Button>
-                <Button type="default" onClick={exportToPDF}>
-                    Download PDF
-                </Button>
-                <Button type="default" onClick={exportToExcel}>
-                    Download Excel
-                </Button>
+            <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
+                <div className="table_search" >
+                    <Input
+                        placeholder="Search in all fields"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onPressEnter={handleSearch}
+                    />
+                    <Button type="primary" onClick={handleSearch} >
+                        Search
+                    </Button>
+                </div>
+                <div>
+                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
+                        Download PDF
+                    </Button>
+                    <Button type="default" onClick={exportToExcel}>
+                        Download Excel
+                    </Button>
+                </div>
+
             </div>
             <Table
                 columns={profileColumns}

@@ -7,6 +7,7 @@ import ViewUserReportModal from "../../modals/ViewUserReportModal";
 
 import { EyeOutlined, CheckCircleOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { badgeReport } from "../../../_dummyData/badgeData";
+import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
 
 const BadgeReport = () => {
@@ -110,7 +111,7 @@ const BadgeReport = () => {
         { title: "Course Progress", dataIndex: "course_progress", key: "course_progress", width: 150 },
         { title: "Badge Description", dataIndex: "badge_description", key: "badge_description", width: 300 },
         { title: "Endorsement", dataIndex: "endorsement", key: "endorsement", width: 200 },
-    
+
         {
             title: "Actions",
             key: "actions",
@@ -118,39 +119,51 @@ const BadgeReport = () => {
             fixed: "right",
             render: (record) => (
                 <div className="action-buttons">
-                    <Button type="primary" icon={<EyeOutlined />}>
+                    <Button type="primary" className="view-btn" onClick={() => handleView(record)}>
                         View
                     </Button>
-                    <Button type="dashed" icon={<CheckCircleOutlined />}>
-                        Verify
+                    <Button type="dashed" className="edit-btn">
+                        Excel
                     </Button>
-                    <Button type="link" icon={<ShareAltOutlined />} >
-                        Share
+                    <Button type="dashed" className="edit-btn">
+                        Pdf
+                    </Button>
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()} >
+                        Delete
                     </Button>
                 </div>
             ),
         },
     ];
 
+    const handleDeteleUser =(item)=>{
+        const userReportDelete = <DeleteUserReportModal  />
+        handleModalData(userReportDelete, "md")
+    }
 
     return (
         <div className="fancy-table-container">
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px" }}>
-                <Input
-                    placeholder="Search in all fields"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
-                />
-                <Button type="primary" onClick={handleSearch}>
-                    Search
-                </Button>
-                <Button type="default" onClick={exportToPDF}>
-                    Download PDF
-                </Button>
-                <Button type="default" onClick={exportToExcel}>
-                    Download Excel
-                </Button>
+            <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
+                <div className="table_search" >
+                    <Input
+                        placeholder="Search in all fields"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onPressEnter={handleSearch}
+                    />
+                    <Button type="primary" onClick={handleSearch} >
+                        Search
+                    </Button>
+                </div>
+                <div>
+                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
+                        Download PDF
+                    </Button>
+                    <Button type="default" onClick={exportToExcel}>
+                        Download Excel
+                    </Button>
+                </div>
+
             </div>
             <Table
                 columns={columns}
