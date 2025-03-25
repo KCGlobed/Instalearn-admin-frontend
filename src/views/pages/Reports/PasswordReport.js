@@ -51,12 +51,12 @@ const PasswordReport = () => {
     };
 
     const columns = [
-        { title: "ID", dataIndex: "id", key: "id", width: 120 },
-        { title: "Username", dataIndex: "username", key: "username", width: 150 },
-        { title: "Email", dataIndex: "email", key: "email", width: 200 },
-        { title: "Password Created", dataIndex: "password_create_date", key: "password_create_date", width: 150 },
-        { title: "Password Updated", dataIndex: "password_update_date", key: "password_update_date", width: 150 },
-        { title: "Password Expiry", dataIndex: "password_expiry_date", key: "password_expiry_date", width: 150 },
+        { title: "ID", dataIndex: "id", key: "id", width: 120 ,sorter: (a, b) => a.id - b.id },
+        { title: "Username", dataIndex: "username", key: "username", width: 150 ,sorter: (a, b) => a.id - b.id },
+        { title: "Email", dataIndex: "email", key: "email", width: 200 ,sorter: (a, b) => a.id - b.id },
+        { title: "Password Created", dataIndex: "password_create_date", key: "password_create_date", width: 150,sorter: (a, b) => a.id - b.id  },
+        { title: "Password Updated", dataIndex: "password_update_date", key: "password_update_date", width: 150 ,sorter: (a, b) => a.id - b.id },
+        { title: "Password Expiry", dataIndex: "password_expiry_date", key: "password_expiry_date", width: 150 ,sorter: (a, b) => a.id - b.id },
         { title: "Password Strength", dataIndex: "password_strength", key: "password_strength", width: 150 },
         { title: "Last Password Change", dataIndex: "last_password_change", key: "last_password_change", width: 250 },
         { title: "IP Address", dataIndex: "ip_Address", key: "ip_Address", width: 150 },

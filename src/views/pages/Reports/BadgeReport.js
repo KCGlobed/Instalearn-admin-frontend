@@ -64,10 +64,10 @@ const BadgeReport = () => {
 
     const columns = [
         { title: "Badge ID", dataIndex: "id", key: "id", width: 100, sorter: (a, b) => a.id.localeCompare(b.id) },
-        { title: "User Name", dataIndex: "user_name", key: "user_name", width: 150 },
-        { title: "Email", dataIndex: "email", key: "email", width: 200 },
-        { title: "Video Title", dataIndex: "video_title", key: "video_title", width: 200 },
-        { title: "Course Name", dataIndex: "course_name", key: "course_name", width: 200 },
+        { title: "User Name", dataIndex: "user_name", key: "user_name", width: 150 ,sorter: (a, b) => a.user_name.localeCompare(b.user_name)},
+        { title: "Email", dataIndex: "email", key: "email", width: 200,sorter: (a, b) => a.email.localeCompare(b.email) },
+        { title: "Video Title", dataIndex: "video_title", key: "video_title", width: 200,sorter: (a, b) => a.video_title.localeCompare(b.video_title) },
+        { title: "Course Name", dataIndex: "course_name", key: "course_name", width: 200 ,sorter: (a, b) => a.video_title.localeCompare(b.video_title)},
         { title: "Badge Name", dataIndex: "badge_name", key: "badge_name", width: 200 },
         {
             title: "Badge Type",
