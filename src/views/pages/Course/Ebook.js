@@ -5,12 +5,12 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 
 import { initialData } from "../../../_dummyData/userReport";
- import AddCourseModal from "../../modals/AddCourseModal";
- import EditCourseModal from "../../modals/EditCourseModal";
+ import AddBookModal from "../../modals/AddBookModal";
+ import EditBookModal from "../../modals/EditBookModal";
 
 
 
-const Course = () => {
+const Ebook = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
@@ -82,16 +82,18 @@ const Course = () => {
 
     const columns = [
         { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Course Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Instructor", dataIndex: "email", key: "email", width: 150 },
-        { title: "Category", dataIndex: "ph_number", key: "ph_number", width: 150 },
-        { title: "Sub Category", dataIndex: "address", key: "address", width: 150 },
+        { title: "E-Book Title", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
+        { title: "Topic Name", dataIndex: "email", key: "email", width: 150 },
+        { title: "Course Name", dataIndex: "ph_number", key: "ph_number", width: 150 },
+        { title: "File Size", dataIndex: "address", key: "address", width: 150 },
+        { title: "Category", dataIndex: "country", key: "country", width: 150 },
+        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
         { title: "Create Date", dataIndex: "city", key: "city", width: 150 },
         { title: "Update Date", dataIndex: "state", key: "state", width: 150 },
-        { title: "Badge", dataIndex: "country", key: "country", width: 150 },
-        { title: "Price", dataIndex: "pincode", key: "pincode", width: 150 },
-        { title: "Plan", dataIndex: "last_Login", key: "last_Login", width: 150 },
-        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
+       
+        { title: "SubCategory", dataIndex: "pincode", key: "pincode", width: 150 },
+      
+      
         { title: "Active",
                  key: "active",
                  width: 150 ,
@@ -154,7 +156,7 @@ const Course = () => {
                     Download Excel
                 </Button>
                 <Button type="default" onClick={handleAdd}>
-                    Create Course
+                    Upload E-Book
                 </Button>
             </div>
             <Table
@@ -164,13 +166,13 @@ const Course = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-            <AddCourseModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditCourseModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+            <AddBookModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
+            <EditBookModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
         </div>
     );
 };
 
-export default Course;
+export default Ebook;
 
 
 

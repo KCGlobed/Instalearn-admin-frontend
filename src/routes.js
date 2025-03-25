@@ -12,6 +12,10 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Report = React.lazy(() => import('./views/pages/Reports/Reports'));
 const Course = React.lazy(() => import('./views/pages/Course/Course'));
 const Videos = React.lazy(() => import('./views/pages/Course/Videos'));
+const Category = React.lazy(() => import('./views/pages/Course/Category'));
+const Topic = React.lazy(() => import('./views/pages/Course/Topic'));
+const Ebook = React.lazy(() => import('./views/pages/Course/Ebook'));
+const Private = React.lazy(() => import('./views/pages/Institutes/Private'));
 const Badge =React.lazy(() => import('./views/pages/Badge/index'))
 
 
@@ -24,7 +28,11 @@ const routes = [
   { path: '/reports', name: 'Report', element: <PrivateRoute element={<Report />} /> },
   { path: '/course', name: 'Course', element: <PrivateRoute element={<Course />} /> },
   { path: '/videos', name: 'Course', element: <PrivateRoute element={<Videos />} /> },
+  { path: '/category', name: 'Course', element: <PrivateRoute element={<Category />} /> },
+  { path: '/topic', name: 'Course', element: <PrivateRoute element={<Topic />} /> },
+  { path: '/e-book', name: 'Course', element: <PrivateRoute element={<Ebook />} /> },
   { path: '/badge', name: 'Badge', element: <PrivateRoute element={<Badge />} /> },
+  { path: '/private-Universities', name: 'Institutes', element: <PrivateRoute element={<Private />} /> },
 ];
 
 export default routes;

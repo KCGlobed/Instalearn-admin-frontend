@@ -5,8 +5,8 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 
 import { initialData } from "../../../_dummyData/userReport";
- import AddCourseModal from "../../modals/AddCourseModal";
- import EditCourseModal from "../../modals/EditCourseModal";
+ import AddCategoryModal from "../../modals/AddCategoryModal";
+ import EditCategoryModal from "../../modals/EditCategoryModal";
 
 
 
@@ -82,28 +82,14 @@ const Category = () => {
 
     const columns = [
         { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Course Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Instructor", dataIndex: "email", key: "email", width: 150 },
-        { title: "Category", dataIndex: "ph_number", key: "ph_number", width: 150 },
-        { title: "Sub Category", dataIndex: "address", key: "address", width: 150 },
+        { title: "Category Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
+        { title: "Description", dataIndex: "email", key: "email", width: 150 },
+        { title: "Status", dataIndex: "ph_number", key: "ph_number", width: 150 },
+       
         { title: "Create Date", dataIndex: "city", key: "city", width: 150 },
         { title: "Update Date", dataIndex: "state", key: "state", width: 150 },
-        { title: "Badge", dataIndex: "country", key: "country", width: 150 },
-        { title: "Price", dataIndex: "pincode", key: "pincode", width: 150 },
-        { title: "Plan", dataIndex: "last_Login", key: "last_Login", width: 150 },
-        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
-        { 
-            title: "Activate/Deactivate", 
-            dataIndex: "isActive", 
-            key: "isActive", 
-            width: 150,
-            render: (_, record) => (
-                <Switch 
-                    checked={record.isActive} 
-                    onChange={() => handleToggle(record.key)} 
-                />
-            )
-        },
+       
+       
        
 
         {
@@ -118,12 +104,7 @@ const Category = () => {
                     <Button type="dashed" className="edit-btn">
                         Delete
                     </Button>
-                    <Button type="danger" className="delete-btn">
-                        Approve
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Reject
-                    </Button>
+                  
                 
                 </div>
             ),
@@ -152,7 +133,7 @@ const Category = () => {
                     Download Excel
                 </Button>
                 <Button type="default" onClick={handleAdd}>
-                    Create Course
+                    Create Category
                 </Button>
             </div>
             <Table
@@ -162,8 +143,8 @@ const Category = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-            <AddCourseModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditCourseModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+            <AddCategoryModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
+            <EditCategoryModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
         </div>
     );
 };

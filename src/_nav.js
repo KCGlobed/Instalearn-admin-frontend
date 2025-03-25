@@ -60,17 +60,17 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Category',
-        to: '/buttons/button-groups',
+        to: '/category',
       },
       {
         component: CNavItem,
         name: 'Topic',
-        to: '/buttons/dropdowns',
+        to: '/topic',
       },
       {
         component: CNavItem,
         name: 'Manage E books',
-        to: '/buttons/dropdowns',
+        to: '/e-book',
       },
       
     ],
@@ -110,7 +110,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Private Universities',
-        to: '/buttons/dropdowns',
+        to: '/private-universities',
       },
       {
         component: CNavItem,
