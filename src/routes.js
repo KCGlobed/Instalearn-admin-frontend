@@ -13,6 +13,9 @@ const Report = React.lazy(() => import('./views/pages/Reports/Reports'));
 const Course = React.lazy(() => import('./views/pages/Course/Course'));
 const Videos = React.lazy(() => import('./views/pages/Course/Videos'));
 const Badge =React.lazy(() => import('./views/pages/Badge/index'))
+const ManageSubscription =React.lazy(() => import('./views/pages/ManageSubscription/index'))
+const ManageStaff =React.lazy(() => import('./views/pages/ManageStaff/index'))
+
 
 
 
@@ -25,6 +28,8 @@ const routes = [
   { path: '/course', name: 'Course', element: <PrivateRoute element={<Course />} /> },
   { path: '/videos', name: 'Course', element: <PrivateRoute element={<Videos />} /> },
   { path: '/badge', name: 'Badge', element: <PrivateRoute element={<Badge />} /> },
+  { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
+  { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
 ];
 
 export default routes;
