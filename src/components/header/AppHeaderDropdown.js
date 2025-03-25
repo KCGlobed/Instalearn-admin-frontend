@@ -48,7 +48,7 @@ const AppHeaderDropdown = () => {
           icon: 'success',
           title: 'Logged Out!',
           text: 'You have been logged out successfully.',
-          timer: 2000,
+          timer: 1500,
           showConfirmButton: false,
         })
 

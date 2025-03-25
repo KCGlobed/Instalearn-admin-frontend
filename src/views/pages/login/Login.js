@@ -181,7 +181,7 @@ const Login = () => {
           icon: 'success',
           title: 'Login Successful!',
           text: response.data.message,
-          timer: 2000,
+          timer: 1500,
           showConfirmButton: false,
         });
 
@@ -202,7 +202,7 @@ const Login = () => {
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={6}>
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
