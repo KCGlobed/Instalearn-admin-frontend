@@ -20,6 +20,7 @@ const Badge =React.lazy(() => import('./views/pages/Badge/index'))
 const ManageSubscription =React.lazy(() => import('./views/pages/ManageSubscription/index'))
 const ManageStaff =React.lazy(() => import('./views/pages/ManageStaff/index'))
 const Permission =React.lazy(() => import('./views/pages/ManagePermissions/Permission'))
+const UserPayments =React.lazy(() => import('./views/pages/UserPayments/UserPayments'))
 
 
 
@@ -40,7 +41,9 @@ const routes = [
   { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
   { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
   { path: '/manage-permission', name: 'Manage Permissions', element: <PrivateRoute element={<Permission />} /> },
+  { path: '/user-payment', name: 'Manage Permissions', element: <PrivateRoute element={<UserPayments />} /> },
 ];
+
 
 export default routes;
 
