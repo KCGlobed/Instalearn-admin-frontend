@@ -125,7 +125,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Permissions',
-    to: '/badges',
+    to: '/manage-permission',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },

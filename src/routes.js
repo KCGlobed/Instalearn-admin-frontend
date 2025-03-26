@@ -19,6 +19,7 @@ const Private = React.lazy(() => import('./views/pages/Institutes/Private'));
 const Badge =React.lazy(() => import('./views/pages/Badge/index'))
 const ManageSubscription =React.lazy(() => import('./views/pages/ManageSubscription/index'))
 const ManageStaff =React.lazy(() => import('./views/pages/ManageStaff/index'))
+const Permission =React.lazy(() => import('./views/pages/ManagePermissions/Permission'))
 
 
 
@@ -38,6 +39,7 @@ const routes = [
   { path: '/private-Universities', name: 'Institutes', element: <PrivateRoute element={<Private />} /> },
   { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
   { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
+  { path: '/manage-permission', name: 'Manage Permissions', element: <PrivateRoute element={<Permission />} /> },
 ];
 
 export default routes;
