@@ -27,7 +27,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Reports',
-    to: '/table',
+    to: '/reports',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
@@ -147,7 +147,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Offers',
-    to: '/badges',
+    to: '/offers',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },

@@ -22,6 +22,7 @@ const ManageStaff =React.lazy(() => import('./views/pages/ManageStaff/index'))
 const Permission =React.lazy(() => import('./views/pages/ManagePermissions/Permission'))
 const UserPayments =React.lazy(() => import('./views/pages/UserPayments/UserPayments'))
 const PaymentPlan =React.lazy(() => import('./views/pages/PaymentPlan/PaymentPlan'))
+const Offers =React.lazy(() => import('./views/pages/ManageOffers/offers'))
 
 
 
@@ -29,7 +30,7 @@ const PaymentPlan =React.lazy(() => import('./views/pages/PaymentPlan/PaymentPla
 const routes = [
   // { path: '/', exact: true, name: 'Home', element: <PrivateRoute element={<Dashboard />} /> },
   { path: '/dashboard', name: 'Dashboard', element: <PrivateRoute element={<Dashboard />} /> },
-  { path: '/table', name: 'Reports', element: <PrivateRoute element={<Reports />} /> },
+  { path: '/reports', name: 'Reports', element: <PrivateRoute element={<Reports />} /> },
   { path: '/widgets', name: 'Widgets', element: <PrivateRoute element={<Widgets />} /> },
   { path: '/reports', name: 'Report', element: <PrivateRoute element={<Report />} /> },
   { path: '/course', name: 'Course', element: <PrivateRoute element={<Course />} /> },
@@ -44,6 +45,7 @@ const routes = [
   { path: '/manage-permission', name: 'Manage Permissions', element: <PrivateRoute element={<Permission />} /> },
   { path: '/user-payment', name: 'User Payments', element: <PrivateRoute element={<UserPayments />} /> },
   { path: '/payment-plan', name: 'Payment Plan', element: <PrivateRoute element={<PaymentPlan />} /> },
+  { path: '/offers', name: 'Payment Plan', element: <PrivateRoute element={<Offers />} /> },
 ];
 
 
