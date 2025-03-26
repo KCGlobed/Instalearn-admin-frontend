@@ -140,7 +140,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Payment Plans',
-    to: '/badges',
+    to: '/payment-plan',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
