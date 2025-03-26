@@ -65,9 +65,10 @@ const EditOfferModal = ({ visible, onCancel }) => {
                 </div>
                 <div style={{ display: "flex", gap: "16px" }}>
                     
-                    <Form.Item label="Description" name="name" style={{ flex: 1 }}>
-                            <Input placeholder="Description" />
-                        </Form.Item>
+                <Form.Item label="Description" name="name" style={{ flex: 1 }}>
+    <Input.TextArea placeholder="Description" />
+</Form.Item>
+
                        
                         
     

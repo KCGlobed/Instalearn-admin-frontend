@@ -69,10 +69,7 @@ const AddOfferModal = ({ visible, onCancel }) => {
     <Input.TextArea placeholder="Description" />
 </Form.Item>
 
-                       
-                        
-    
-                    </div>
+    </div>
                 <Button type="primary" >Submit</Button>
             </Form>
         </Modal>

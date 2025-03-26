@@ -21,7 +21,7 @@ const tabsData = [{
 {
   id: 3,
   itemKey: "discount",
-  itemName: "discount coupan ",
+  itemName: "Discount coupan ",
   component: <DiscountReport />
 },
 {
