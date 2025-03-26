@@ -16,7 +16,7 @@ const EditStaffModal = ({ visible, onCancel }) => {
           </Form.Item>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
-          <Form.Item label="Phone Number" name="phone" style={{ flex: 1 }}>
+          <Form.Item label="Phone Number" name="phone" style={{ flex: 1 }}>   
             <Input placeholder="Phone " />
           </Form.Item>
           <Form.Item label="Role" name="role" style={{ flex: 1 }}>
@@ -52,7 +52,6 @@ const EditStaffModal = ({ visible, onCancel }) => {
     </Modal>
   )
 }
-
 export default EditStaffModal
 
 
