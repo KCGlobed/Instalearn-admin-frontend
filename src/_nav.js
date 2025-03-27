@@ -183,7 +183,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Reels',
-    to: '/badges',
+    to: '/managereel',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },

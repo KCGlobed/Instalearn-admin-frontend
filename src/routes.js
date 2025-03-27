@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PrivateRoute from './components/PrivateRoute'; // Import Private Route
+import ManageBlog from './views/pages/ManageBlog';
 
 const Dashboard = React.lazy(() => import('./views/pages/Dashboard/Dashboard'));
 const Reports = React.lazy(() => import('./views/pages/Reports/Reports'));
@@ -23,6 +24,7 @@ const Permission =React.lazy(() => import('./views/pages/ManagePermissions/Permi
 const UserPayments =React.lazy(() => import('./views/pages/UserPayments/UserPayments'))
 const PaymentPlan =React.lazy(() => import('./views/pages/PaymentPlan/PaymentPlan'))
 const Offers =React.lazy(() => import('./views/pages/ManageOffers/offers'))
+const ManageReel =React.lazy(() => import('./views/pages/ManageReels/index'))
 
 
 
@@ -42,10 +44,12 @@ const routes = [
   { path: '/private-Universities', name: 'Institutes', element: <PrivateRoute element={<Private />} /> },
   { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
   { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
+  { path: '/manageblogs', name: 'ManageBlog', element: <PrivateRoute element={<ManageBlog />} /> },
   { path: '/manage-permission', name: 'Manage Permissions', element: <PrivateRoute element={<Permission />} /> },
   { path: '/user-payment', name: 'User Payments', element: <PrivateRoute element={<UserPayments />} /> },
   { path: '/payment-plan', name: 'Payment Plan', element: <PrivateRoute element={<PaymentPlan />} /> },
   { path: '/offers', name: 'Payment Plan', element: <PrivateRoute element={<Offers />} /> },
+  { path: '/managereel', name: 'Payment Plan', element: <PrivateRoute element={<ManageReel />} /> },
 ];
 
 

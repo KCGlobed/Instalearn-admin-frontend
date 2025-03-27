@@ -12,7 +12,7 @@ import EditBlogModal from "../../modals/EditBlogModal";
 
 
 
-const ManageBlog = () => {
+const ManageReal = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
@@ -175,4 +175,4 @@ const ManageBlog = () => {
     );
 };
 
-export default ManageBlog;
+export default ManageReal;
