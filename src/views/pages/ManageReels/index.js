@@ -9,7 +9,7 @@ import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
 
 
-const ManageBlog = () => {
+const ManageReels = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
@@ -202,4 +202,4 @@ const ManageBlog = () => {
     );
 };
 
-export default ManageBlog;
+export default ManageReels;

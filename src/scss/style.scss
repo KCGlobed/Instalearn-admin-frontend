@@ -205,3 +205,8 @@ body {
   align-items: center;
   justify-content:center ;
 }
+
+.manage_column{
+  max-height: 550px;
+  overflow-y: scroll;
+}

@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PrivateRoute from './components/PrivateRoute'; // Import Private Route
+import ManageBlog from './views/pages/ManageBlog';
 
 const Dashboard = React.lazy(() => import('./views/pages/Dashboard/Dashboard'));
 const Reports = React.lazy(() => import('./views/pages/Reports/Reports'));
@@ -38,6 +39,7 @@ const routes = [
   { path: '/private-Universities', name: 'Institutes', element: <PrivateRoute element={<Private />} /> },
   { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
   { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
+  { path: '/manageblogs', name: 'ManageBlog', element: <PrivateRoute element={<ManageBlog />} /> },
 ];
 
 export default routes;
