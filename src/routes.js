@@ -43,14 +43,11 @@ const routes = [
   { path: '/private-Universities', name: 'Institutes', element: <PrivateRoute element={<Private />} /> },
   { path: '/managesubscription', name: 'ManageSubscription', element: <PrivateRoute element={<ManageSubscription />} /> },
   { path: '/managestaff', name: 'ManageStaff', element: <PrivateRoute element={<ManageStaff />} /> },
-<<<<<<< HEAD
   { path: '/manageblogs', name: 'ManageBlog', element: <PrivateRoute element={<ManageBlog />} /> },
-=======
   { path: '/manage-permission', name: 'Manage Permissions', element: <PrivateRoute element={<Permission />} /> },
   { path: '/user-payment', name: 'User Payments', element: <PrivateRoute element={<UserPayments />} /> },
   { path: '/payment-plan', name: 'Payment Plan', element: <PrivateRoute element={<PaymentPlan />} /> },
   { path: '/offers', name: 'Payment Plan', element: <PrivateRoute element={<Offers />} /> },
->>>>>>> a33de82f81e88c3194abc9b714707cdad008aae0
 ];
 
 
