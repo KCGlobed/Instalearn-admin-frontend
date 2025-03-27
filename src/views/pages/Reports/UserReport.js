@@ -198,6 +198,8 @@ const UserReport = () => {
                     Apply
                 </Button>
             </Drawer>
+
+            
         </div>
     );
 };

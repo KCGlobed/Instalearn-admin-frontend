@@ -24,6 +24,7 @@ const Permission =React.lazy(() => import('./views/pages/ManagePermissions/Permi
 const UserPayments =React.lazy(() => import('./views/pages/UserPayments/UserPayments'))
 const PaymentPlan =React.lazy(() => import('./views/pages/PaymentPlan/PaymentPlan'))
 const Offers =React.lazy(() => import('./views/pages/ManageOffers/offers'))
+const ManageReel =React.lazy(() => import('./views/pages/ManageReels/index'))
 
 
 
@@ -48,6 +49,7 @@ const routes = [
   { path: '/user-payment', name: 'User Payments', element: <PrivateRoute element={<UserPayments />} /> },
   { path: '/payment-plan', name: 'Payment Plan', element: <PrivateRoute element={<PaymentPlan />} /> },
   { path: '/offers', name: 'Payment Plan', element: <PrivateRoute element={<Offers />} /> },
+  { path: '/managereel', name: 'Payment Plan', element: <PrivateRoute element={<ManageReel />} /> },
 ];
 
 
