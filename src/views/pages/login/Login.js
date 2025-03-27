@@ -194,7 +194,7 @@ const Login = () => {
         text: error.response?.data?.message || 'Invalid credentials',
       });
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false); 
     }
   };
 

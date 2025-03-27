@@ -27,7 +27,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Reports',
-    to: '/table',
+    to: '/reports',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
@@ -125,7 +125,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Permissions',
-    to: '/badges',
+    to: '/manage-permission',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
@@ -133,21 +133,21 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage User Payments',
-    to: '/badges',
+    to: '/user-payment',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
   {
     component: CNavItem,
     name: 'Manage Payment Plans',
-    to: '/badges',
+    to: '/payment-plan',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
   {
     component: CNavItem,
     name: 'Manage Offers',
-    to: '/badges',
+    to: '/offers',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },

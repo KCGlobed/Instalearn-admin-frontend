@@ -5,12 +5,12 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 
 import { initialData } from "../../../_dummyData/userReport";
- import AddStaffModal from "../../modals/AddStaffModal";
- import EditStaffModal from "../../modals/EditStaffModal";
+ import AddUserPayModal from "../../modals/AddUserPayModal";
+ import EditUserPayModal from "../../modals/EditUserPayModal";
 
 
 
-const ManageStaff = () => {
+const UserPayments = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
@@ -83,15 +83,15 @@ const ManageStaff = () => {
     const columns = [
         { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
         { title: "User Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Email", dataIndex: "email", key: "email", width: 150 },
-        { title: "Role", dataIndex: "email", key: "email", width: 150 },
-       
+        { title: "Course/Subscription", dataIndex: "email", key: "email", width: 150 },
+      
+        { title: "Amount", dataIndex: "address", key: "address", width: 150 },
+        { title: "Payment Method", dataIndex: "city", key: "city", width: 150 },
+        { title: "Gross Amount Tax", dataIndex: "state", key: "state", width: 150 },
+        { title: "Net Tax", dataIndex: "country", key: "country", width: 150 },
+        { title: "Payment Date", dataIndex: "pincode", key: "pincode", width: 150 },
+        { title: "PR Bank", dataIndex: "last_Login", key: "last_Login", width: 150 },
         { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "City", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "State", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Country", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Created At", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Updated At", dataIndex: "isActive", key: "isActive", width: 150 },
         { title: "Active",
                  key: "active",
                  width: 150 ,
@@ -154,7 +154,7 @@ const ManageStaff = () => {
                     Download Excel
                 </Button>
                 <Button type="default" onClick={handleAdd}>
-                    Create Staff
+                    Offline Payment
                 </Button>
             </div>
             <Table
@@ -164,13 +164,13 @@ const ManageStaff = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-            <AddStaffModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditStaffModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+            <AddUserPayModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
+            <EditUserPayModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
         </div>
     );
 };
 
-export default ManageStaff;
+export default UserPayments;
 
 
 

@@ -5,12 +5,12 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 
 import { initialData } from "../../../_dummyData/userReport";
- import AddStaffModal from "../../modals/AddStaffModal";
- import EditStaffModal from "../../modals/EditStaffModal";
+ import AddOfferModal from "../../modals/AddOfferModal";
+ import EditOfferModal from "../../modals/EditOfferModal";
 
 
 
-const ManageStaff = () => {
+const Offers = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
@@ -82,30 +82,15 @@ const ManageStaff = () => {
 
     const columns = [
         { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "User Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Email", dataIndex: "email", key: "email", width: 150 },
-        { title: "Role", dataIndex: "email", key: "email", width: 150 },
+        { title: "Offer Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
+        { title: "Discount", dataIndex: "email", key: "email", width: 150 },
+        { title: "Applies To", dataIndex: "email", key: "email", width: 150 },
+        { title: "Start Date", dataIndex: "email", key: "email", width: 150 },
+        { title: "End Date", dataIndex: "email", key: "email", width: 150 },
+        { title: "Discount Id", dataIndex: "email", key: "email", width: 150 },
        
-        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "City", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "State", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Country", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Created At", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Updated At", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Active",
-                 key: "active",
-                 width: 150 ,
-                 render:()=>(
-                   <>
-                    <div className="switch_item">
-                       <Switch defaultChecked  />
-                    </div>
-                
-                   </>
-                 ),
+        { title: "Discount Percentage", dataIndex: "isActive", key: "isActive", width: 150 },
        
-               
-               },
        
 
         {
@@ -120,12 +105,7 @@ const ManageStaff = () => {
                     <Button type="dashed" className="edit-btn">
                         Delete
                     </Button>
-                    <Button type="danger" className="delete-btn">
-                        Approve
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Reject
-                    </Button>
+                   
                 
                 </div>
             ),
@@ -154,7 +134,7 @@ const ManageStaff = () => {
                     Download Excel
                 </Button>
                 <Button type="default" onClick={handleAdd}>
-                    Create Staff
+                    Create Offer Plans
                 </Button>
             </div>
             <Table
@@ -164,13 +144,13 @@ const ManageStaff = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-            <AddStaffModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditStaffModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+            <AddOfferModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
+            <EditOfferModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
         </div>
     );
 };
 
-export default ManageStaff;
+export default Offers;
 
 
 

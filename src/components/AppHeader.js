@@ -30,7 +30,7 @@ import { AppHeaderDropdown } from './header/index'
 
 const AppHeader = () => {
   const headerRef = useRef()
-  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
+  const { colorMode, setColorMode } = useColorModes('')
 
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
@@ -56,17 +56,17 @@ const AppHeader = () => {
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           <CNavItem>
-            <CNavLink href="#">
+            <CNavLink>
               <CIcon icon={cilBell} size="lg" />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">
+            <CNavLink >
               <CIcon icon={cilList} size="lg" />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">
+            <CNavLink >
               <CIcon icon={cilEnvelopeOpen} size="lg" />
             </CNavLink>
           </CNavItem>
