@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Button, Input } from "antd";
+import { Table, Button, Input,Switch } from "antd";
 import { jsPDF } from "jspdf";
 import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
@@ -37,7 +37,31 @@ const Category = () => {
             console.error("Error fetching categories:", error);
         }
     };
-
+    const handleToggleStatus = async (id, checked) => {
+        const token = localStorage.getItem("access_token");
+        const status = checked ? "1" : "0";
+    
+        try {
+            const response = await axios.post(
+                `${API_BASE_URL}/content/update-category-status/${id}`,
+                { status },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            if (response.data.status === "success") {
+                Swal.fire("Success!", "Category Status Updated Successfully", "success");
+                fetchCategories(); // Refresh the categories list
+            }
+        } catch (error) {
+            console.error("Error updating category status:", error);
+            Swal.fire("Error!", "Failed to update category status.", "error");
+        }
+    };
+    
 
     const handleDelete = async (id) => {
         const token = localStorage.getItem("access_token");
@@ -95,6 +119,21 @@ const Category = () => {
     const columns = [
         { title: "Category Name", dataIndex: "name", key: "name", width: 200 },
         { title: "Description", dataIndex: "description", key: "description", width: 400 },
+        {
+            title: "Active",
+            key: "active",
+            width: 150,
+            render: (item) => (
+                <div className="switch_item">
+                    <Switch
+                        checked={item.visible === 1}
+                        onChange={(checked) => handleToggleStatus(item.id, checked)}
+                    />
+                </div>
+            ),
+        },
+        
+        
         {
             title: "Actions",
             key: "actions",
