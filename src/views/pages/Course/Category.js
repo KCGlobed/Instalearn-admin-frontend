@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Table, Button, Input, Switch } from 'antd'
+import { Table, Button, Input, Switch, Spin } from 'antd'
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { jsPDF } from 'jspdf'
 import * as XLSX from 'xlsx'
 import { ModalContext } from '../../../Context'
@@ -18,24 +19,28 @@ const Category = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false)
   const [selectedCourse, setSelectedCourse] = useState(null)
   const { handleModalData } = modalContext
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCategories()
   }, [])
 
   const fetchCategories = async () => {
-    const token = localStorage.getItem('access_token')
+    setLoading(true);
+    const token = localStorage.getItem("access_token");
     try {
-      const response = await axios.get(`${API_BASE_URL}/content/category-listing/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      setCategories(response.data.results.reverse()) 
+        const response = await axios.get(`${API_BASE_URL}/content/category-listing/`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        setCategories(response.data.results.reverse());
     } catch (error) {
-      console.error('Error fetching categories:', error)
+        console.error("Error fetching categories:", error);
+    } finally {
+        setLoading(false);
     }
-  }
+};
   const handleToggleStatus = async (id, checked) => {
     const token = localStorage.getItem('access_token')
     const status = checked ? '1' : '0'
@@ -117,7 +122,17 @@ const Category = () => {
 
   const columns = [
     { title: 'Category Name', dataIndex: 'name', key: 'name', width: 200 },
-    { title: 'Description', dataIndex: 'description', key: 'description', width: 400 },
+    { 
+        title: 'Description', 
+        dataIndex: 'description', 
+        key: 'description', 
+        width: 400,
+        render: (text) => (
+            <div style={{ whiteSpace: "pre-line", wordBreak: "break-word", maxHeight: "3.6em", overflow: "hidden" }}>
+                {text.length > 100 ? text.substring(0, 100) + "..." : text}
+            </div>
+        )
+    },
     {
       title: 'Status',
       key: 'active',
@@ -133,19 +148,23 @@ const Category = () => {
     },
 
     {
-      title: 'Actions',
-      key: 'actions',
-      render: (item) => (
-        <div className="action-buttons">
-          <Button type="dashed" className="edit-btn" onClick={() => handleEdit(item)}>
-            Edit
-          </Button>
-          <Button type="dashed" className="edit-btn" onClick={() => handleDelete(item.id)}>
-            Delete
-          </Button>
-        </div>
-      ),
-      fixed: 'right',
+        title: "Actions",
+        key: "actions",
+        render: (item) => (
+            <div className="action-buttons">
+                <Button
+                    type="text"
+                    icon={<EditOutlined style={{ color: "black" }} />}
+                    onClick={() => handleEdit(item)}
+                />
+                <Button
+                    type="text"
+                    icon={<DeleteOutlined style={{ color: "red" }} />}
+                    onClick={() => handleDelete(item.id)}
+                />
+            </div>
+        ),
+        fixed: "right",
     },
   ]
 
@@ -180,12 +199,21 @@ const Category = () => {
           Create Category
         </Button>
       </div>
-      <Table
+      {/* <Table
         columns={columns}
         dataSource={categories}
         className="fancy-table"
         scroll={{ x: 'max-content', y: 500 }}
+      /> */
+      
+      <Spin spinning={loading}>
+      <Table
+          columns={columns}
+          dataSource={categories}
+          className="fancy-table"
+          scroll={{ x: "max-content", y: 500 }}
       />
+  </Spin>}
       <AddCategoryModal
         visible={isAddModalVisible}
         onCancel={() => setIsAddModalVisible(false)}
