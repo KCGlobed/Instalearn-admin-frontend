@@ -1,63 +1,105 @@
-import React from "react";
-import { Modal, Form, Input, Button, DatePicker, Select } from "antd";
+import React, { useState } from "react";
+import { Modal, Form, Input, Button, Spin } from "antd";
+import toast from "react-hot-toast";
+import { handleCreateStaffApi } from "../../utils/services";
 
-const { Option } = Select;
+const AddStaffModal = ({ visible, onCancel, fetchStaffList }) => {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false); // State to track loading
 
-const AddStaffModal = ({ visible, onCancel }) => {
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        try {
+            await handleCreateStaffApi(values);
+            toast.success("Successfully created!");
+            form.resetFields();
+            fetchStaffList()
+            onCancel();
+        } catch (error) {
+            toast.error(error.errors?.non_field_errors?.[0] || "Something went wrong");
+            console.error("Error submitting form:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <Modal 
-            title="Add Staff" 
-            open={visible} 
-            onCancel={onCancel} 
-            footer={null} 
-            width={800} 
+        <Modal
+            title="Add Staff"
+            open={visible}
+            onCancel={() => {
+                form.resetFields();
+                onCancel();
+            }}
+            footer={null}
+            width={600}
             centered
         >
-            <Form layout="vertical">
-                <div style={{ display: "flex", gap: "16px" }}>
-                    <Form.Item label="User Name" name="name" style={{ flex: 1 }}>
-                        <Input placeholder="User Name " />
-                    </Form.Item>
-                    <Form.Item label="Email" name="Email" style={{ flex: 1 }}>
-                        <Input placeholder="Email " />
-                    </Form.Item>
-                    </div>
-                    <div  style={{ display: "flex", gap: "16px" }}>
-                    <Form.Item label="Phone Number" name="phone" style={{ flex: 1 }}>
-                        <Input placeholder="Phone " />
-                    </Form.Item>
-                    <Form.Item label="Role" name="role" style={{ flex: 1 }}>
-                        <Input placeholder="Role " />
-                    </Form.Item>
-                </div>
-                <div style={{ display: "flex", gap: "16px" }}>
-                <Form.Item label="Select Country" name="Country" style={{ flex: 1 }}>
-                        <Select placeholder="Select Country">
-                            <Option value="gold">Gold</Option>
-                            <Option value="silver">Silver</Option>
-                            <Option value="bronze">Bronze</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Select State" name="state" style={{ flex: 1 }}>
-                        <Select placeholder="Select State">
-                            <Option value="gold">Gold</Option>
-                            <Option value="silver">Silver</Option>
-                            <Option value="bronze">Bronze</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Select City" name="city" style={{ flex: 1 }}>
-                        <Select placeholder="Select City">
-                            <Option value="gold">Gold</Option>
-                            <Option value="silver">Silver</Option>
-                            <Option value="bronze">Bronze</Option>
-                        </Select>
-                    </Form.Item>
-                   
-                </div>
-           
-              
-               
-                <Button type="primary" >Submit</Button>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleSubmit}
+            >
+                <Form.Item
+                    label="First Name"
+                    name="first_name"
+                    rules={[{ required: true, message: "First name is required" }]}
+                >
+                    <Input placeholder="Enter first name" disabled={loading} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Last Name"
+                    name="last_name"
+                    rules={[{ required: true, message: "Last name is required" }]}
+                >
+                    <Input placeholder="Enter last name" disabled={loading} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                        { required: true, message: "Email is required" },
+                        { type: "email", message: "Enter a valid email" }
+                    ]}
+                >
+                    <Input placeholder="Enter email" disabled={loading} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                        { required: true, message: "Password is required" },
+                        { min: 6, message: "Password must be at least 6 characters" }
+                    ]}
+                >
+                    <Input.Password placeholder="Enter password" disabled={loading} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Confirm Password"
+                    name="confirm_password"
+                    dependencies={["password"]}
+                    rules={[
+                        { required: true, message: "Please confirm your password" },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue("password") === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error("Passwords do not match"));
+                            }
+                        })
+                    ]}
+                >
+                    <Input.Password placeholder="Confirm password" disabled={loading} />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" block disabled={loading}>
+                    {loading ? <Spin size="small" /> : "Submit"}
+                </Button>
             </Form>
         </Modal>
     );

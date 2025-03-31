@@ -1,4 +1,4 @@
-import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE } from "./apiroutes"
+import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE, STAFF_CREATE, STAFF_IS_ACTIVE, STAFF_LIST, STAFF_UPDATE } from "./apiroutes"
 import axios from 'axios'
 export const BASE_URL = 'https://instalearn-admin-backend-254015706580.asia-south2.run.app/api' 
 
@@ -79,4 +79,78 @@ export const getListOfBadge = async (data) => {
       throw err.message;
     }
   };
+
+
+  export const getListOfStaff = async (data) => {
+    try {
+      const response = await axios.get(STAFF_LIST, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+      
+        return { res: response.data.results }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+
+  export const handleActiveStaffApi = async (data,id) => {
+    try {
+      const response = await axios.post(`${STAFF_IS_ACTIVE}/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+  export const handleCreateStaffApi = async (data) => {
+    try {
+      const response = await axios.post(STAFF_CREATE, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+
+  export const handleUpdateStaffApi = async (id,data) => {
+    try {
+      const response = await axios.post(`${STAFF_UPDATE}/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
   

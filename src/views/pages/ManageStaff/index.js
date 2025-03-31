@@ -1,180 +1,137 @@
-import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions, Switch } from "antd";
-import { jsPDF } from "jspdf";
-import * as XLSX from "xlsx";
+import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
+import { Table, Button, Input, Switch } from "antd";
 import { ModalContext } from "../../../Context";
-
-import { initialData } from "../../../_dummyData/userReport";
- import AddStaffModal from "../../modals/AddStaffModal";
- import EditStaffModal from "../../modals/EditStaffModal";
-
-
+import AddStaffModal from "../../modals/AddStaffModal";
+import EditStaffModal from "../../modals/EditStaffModal";
+import { getListOfStaff, handleActiveStaffApi } from "../../../utils/services";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled } from "@ant-design/icons";
+import toast from "react-hot-toast";
 
 const ManageStaff = () => {
-    const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
-    const [filteredData, setFilteredData] = useState(initialData);
-    const modalContext = useContext(ModalContext);
+    const [staffData, setStaffData] = useState([]);
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [selectedCourse, setSelectedCourse] = useState(null);
-    const { handleModalData } = modalContext;
-    const [isActive, setIsActive] = useState(true);
-    const [data, setData] = useState(initialData);
+    const [selectedStaff, setSelectedStaff] = useState(null);
+    const modalContext = useContext(ModalContext);
 
-    const handleToggle = (key) => {
-        const updatedData = data.map((item) =>
-            item.key === key ? { ...item, isActive: !item.isActive } : item
-        );
-        setData(updatedData);
+    // Fetch Staff List (Runs Only Once)
+    const fetchStaffList = async () => {
+        try {
+            const result = await getListOfStaff();
+            setStaffData(result.res);
+        } catch (error) {
+            console.error("Error fetching staff list:", error);
+        }
     };
+    useEffect(() => {
 
+        fetchStaffList();
+    }, []);
 
-    const handleDelete = (data) => {
-        const addCollateral = "Hello"
-        handleModalData(addCollateral, "md")
+    // Handle Toggle Active Status
+    const handleToggleActive = useCallback(async (id, checked) => {
+        try {
+            await handleActiveStaffApi({ status: checked ? "1" : "0" }, id);
+            setStaffData((prev) =>
+                prev.map((staff) =>
+                    staff.id === id ? { ...staff, is_active: checked } : staff
+                )
+            );
+            toast.success("Successfully updated!");
+        } catch (error) {
+            console.error("Error updating active status:", error);
+        }
+    }, []);
 
-    }
-  
-    const handleEdit = (course) => {
-        setSelectedCourse(course);
-        setIsEditModalVisible(true);
-    };
-
-    const handleAdd = () => {
-        setIsAddModalVisible(true);
-    };
-    
-    
-
-
-    const handleChange = (pagination, filters, sorter) => {
-        setSortedInfo(sorter);
-    };
-
-    const handleSearch = () => {
-        const filtered = initialData.filter((item) =>
-            Object.values(item).some((value) =>
-                value.toString().toLowerCase().includes(searchText.toLowerCase())
+    // Memoized Filtered Data (Avoids Re-renders)
+    const filteredData = useMemo(() => {
+        return staffData.filter((staff) =>
+            Object.values(staff).some((value) =>
+                value?.toString().toLowerCase().includes(searchText.toLowerCase())
             )
         );
-        setFilteredData(filtered);
-    };
+    }, [staffData, searchText]);
 
-    const exportToPDF = () => {
-        const doc = new jsPDF();
-        let y = 10;
-        doc.text("Fancy Table Data", 10, y);
-        y += 10;
-        filteredData.forEach((item) => {
-            doc.text(`${item.name}, ${item.age}, ${item.address}`, 10, y);
-            y += 10;
-        });
-        doc.save("table_data.pdf");
-    };
-
-    const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(filteredData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, "table_data.xlsx");
-    };
-
-    const columns = [
-        { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "User Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
+    // Table Columns
+    const columns = useMemo(() => [
+        { title: "ID", dataIndex: "id", key: "id", sorter: (a, b) => a.id - b.id, width: 150 },
+        { title: "First Name", dataIndex: "first_name", key: "first_name", sorter: (a, b) => a.first_name.localeCompare(b.first_name), width: 150 },
+        { title: "Last Name", dataIndex: "last_name", key: "last_name", sorter: (a, b) => a.last_name.localeCompare(b.last_name), width: 150 },
         { title: "Email", dataIndex: "email", key: "email", width: 150 },
-        { title: "Role", dataIndex: "email", key: "email", width: 150 },
-       
-        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "City", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "State", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Country", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Created At", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Updated At", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Active",
-                 key: "active",
-                 width: 150 ,
-                 render:()=>(
-                   <>
-                    <div className="switch_item">
-                       <Switch defaultChecked  />
-                    </div>
-                
-                   </>
-                 ),
-       
-               
-               },
-       
-
+        { title: "Phone No", dataIndex: "phone1", key: "phone1", width: 150 },
+        { title: "Active Status", key: "is_active", render: (staff) => (staff.is_active ? "Yes" : "No"), width: 150 },
+        {
+            title: "Active",
+            key: "active",
+            render: (staff) => (
+                <Switch checked={staff.is_active} onChange={(checked) => handleToggleActive(staff.id, checked)} />
+            ),
+            width: 150
+        },
         {
             title: "Actions",
             key: "actions",
-            render: (item) => (
+            render: (staff) => (
                 <div className="action-buttons">
-                
-                    <Button type="dashed" className="edit-btn" onClick={() => handleEdit(item)}>
-                        Edit
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Delete
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Approve
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Reject
-                    </Button>
-                
+
+                    <Button
+                        type="text"
+                        icon={<EditOutlined style={{ color: "black" }} />}
+                        onClick={() => { setSelectedStaff(staff); setIsEditModalVisible(true); }}
+                    />
+
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined style={{ color: "red" }} />}
+                        onClick={() => handleDelete(item.id)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<CheckCircleOutlined style={{ color: "green",fontWeight:"bold" }} />}
+                        
+                    />
+                      <Button
+                        type="text"
+                        icon={<CloseCircleFilled style={{ color: "orange",fontWeight:"bold" }} />}
+                        
+                    />
+
+
                 </div>
             ),
-            fixed: "right"
-
         },
-    ];
-
+    ], [handleToggleActive]);
 
     return (
         <div className="fancy-table-container">
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px" }}>
-                <Input
-                    placeholder="Search in all fields"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
-                />
-                <Button type="primary" onClick={handleSearch}>
-                    Search
-                </Button>
-                <Button type="default" onClick={exportToPDF}>
-                    Download PDF
-                </Button>
-                <Button type="default" onClick={exportToExcel}>
-                    Download Excel
-                </Button>
-                <Button type="default" onClick={handleAdd}>
-                    Create Staff
-                </Button>
+
+            <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
+                <div className="table_search" >
+                    <Input
+                        placeholder="Search in all fields"
+                    />
+                    <Button type="primary" >
+                        Search
+                    </Button>
+                </div>
+                <div>
+                    <Button type="default" className="create_badgebtn" onClick={() => setIsAddModalVisible(true)}>
+                        Create Staff
+                    </Button>
+                </div>
+
             </div>
             <Table
                 columns={columns}
                 dataSource={filteredData}
-                onChange={handleChange}
                 className="fancy-table"
-                scroll={{ x: 'max-content', y: 500 }}
+                scroll={{ x: "max-content", y: 500 }}
             />
-            <AddStaffModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditStaffModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+            <AddStaffModal visible={isAddModalVisible} fetchStaffList={fetchStaffList} onCancel={() => setIsAddModalVisible(false)} />
+            <EditStaffModal visible={isEditModalVisible} selectedStaff={selectedStaff} fetchStaffList={fetchStaffList} onCancel={() => setIsEditModalVisible(false)} />
         </div>
     );
 };
 
 export default ManageStaff;
-
-
-
-
-
-
-

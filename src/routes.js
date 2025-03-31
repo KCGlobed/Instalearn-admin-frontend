@@ -28,6 +28,7 @@ const ManageReel =React.lazy(() => import('./views/pages/ManageReels/index'))
 const ManageNews =React.lazy(() => import('./views/pages/News/index'))
 const FreeTrail =React.lazy(() => import('./views/pages/FreeTrail/index'))
 const SubscribeUser =React.lazy(() => import('./views/pages/SubscribeUser/index'))
+const Event =React.lazy(() => import('./views/pages/Event/index'))
 
 
 
@@ -56,6 +57,7 @@ const routes = [
   { path: '/news', name: 'News', element: <PrivateRoute element={<ManageNews />} /> },
   { path: '/free-trail', name: 'Free Trail', element: <PrivateRoute element={<FreeTrail />} /> },
   { path: '/subscribe-users', name: 'Subscribe User', element: <PrivateRoute element={<SubscribeUser />} /> },
+  { path: '/event', name: 'Subscribe User', element: <PrivateRoute element={<Event />} /> },
 ];
 
 

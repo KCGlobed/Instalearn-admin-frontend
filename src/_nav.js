@@ -190,9 +190,8 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage Events',
-    to: '/badges',
+    to: '/event',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-   
   },
   
   
