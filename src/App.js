@@ -6,6 +6,7 @@ import './scss/style.scss';
 import './scss/examples.scss';
 import { ModalContext } from './Context';
 import CommonModal from './components/CommonModal';
+import { Toaster  } from "react-hot-toast";
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
@@ -86,6 +87,7 @@ const App = () => {
         modalSize={modalSize}
         closeModal={closeModal}
       />
+      <Toaster position="top-right" reverseOrder={false} />
     </ModalContext.Provider>
   );
 };

@@ -25,6 +25,9 @@ const UserPayments =React.lazy(() => import('./views/pages/UserPayments/UserPaym
 const PaymentPlan =React.lazy(() => import('./views/pages/PaymentPlan/PaymentPlan'))
 const Offers =React.lazy(() => import('./views/pages/ManageOffers/offers'))
 const ManageReel =React.lazy(() => import('./views/pages/ManageReels/index'))
+const ManageNews =React.lazy(() => import('./views/pages/News/index'))
+const FreeTrail =React.lazy(() => import('./views/pages/FreeTrail/index'))
+const SubscribeUser =React.lazy(() => import('./views/pages/SubscribeUser/index'))
 
 
 
@@ -50,6 +53,9 @@ const routes = [
   { path: '/payment-plan', name: 'Payment Plan', element: <PrivateRoute element={<PaymentPlan />} /> },
   { path: '/offers', name: 'Payment Plan', element: <PrivateRoute element={<Offers />} /> },
   { path: '/managereel', name: 'Payment Plan', element: <PrivateRoute element={<ManageReel />} /> },
+  { path: '/news', name: 'News', element: <PrivateRoute element={<ManageNews />} /> },
+  { path: '/free-trail', name: 'Free Trail', element: <PrivateRoute element={<FreeTrail />} /> },
+  { path: '/subscribe-users', name: 'Subscribe User', element: <PrivateRoute element={<SubscribeUser />} /> },
 ];
 
 

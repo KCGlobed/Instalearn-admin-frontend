@@ -154,14 +154,14 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Subscribe Users',
-    to: '/badges',
+    to: '/subscribe-users',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
   {
     component: CNavItem,
     name: 'Free Trail',
-    to: '/badges',
+    to: '/free-trail',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },
@@ -169,7 +169,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Manage News',
-    to: '/badges',
+    to: '/news',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
   },

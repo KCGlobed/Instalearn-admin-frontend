@@ -1,43 +1,54 @@
 import React, { useContext, useState } from "react";
 import { Table, Button, Input, Descriptions, Drawer, Checkbox } from "antd";
+import { jsPDF } from "jspdf";
+import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
-import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
-import CreateBlogModal from "../../modals/CreateBlogModal";
-import EditBlogModal from "../../modals/EditBlogModal";
+import AddNewsModal from "../../modals/AddNewsModal";
+import EditNewsForm from "../../modals/EditNewsModal";
+import ViewNewsModal from "../../modals/ViewNewsModal";
 
+const initialData = [
+    {
+        "title": "New Tech Breakthrough",
+        "source": "TechCrunch",
+        "description": "A new AI model has surpassed human performance in image recognition tasks.",
+        "url": "https://techcrunch.com/new-tech-breakthrough",
+        "imageUrl": "https://example.com/news1.jpg",
+        "date": "2025-03-28 10:30 AM"
+    },
+    {
+        "title": "Stock Market Update",
+        "source": "Bloomberg",
+        "description": "The stock market saw a significant rise today amid economic optimism.",
+        "url": "https://bloomberg.com/stock-market-update",
+        "imageUrl": "https://example.com/news2.jpg",
+        "date": "2025-03-28 11:00 AM"
+    },
+    {
+        "title": "Climate Change Report",
+        "source": "BBC News",
+        "description": "A new report highlights the urgent need for action to combat climate change.",
+        "url": "https://bbc.com/climate-change-report",
+        "imageUrl": "https://example.com/news3.jpg",
+        "date": "2025-03-28 12:15 PM"
+    }
+]
 
-
-
-const ManageReal = () => {
+const ManageNews = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [columnsConfig, setColumnsConfig] = useState({
-        name: true,
-        age: true,
-        email: true,
-        ph_number: true,
-        address: true,
-        city: true,
-        state: true,
-        country: true,
-        pincode: true,
-        last_Login: true,
-        isActive: true,
-        permission: true,
-        courses: true,
-        wishlist: true,
-        mygoals: true,
-        review: true,
-        total_watch_time: true,
-        certificates_earned: true,
-        enrolled_date: true,
-        subscription_type: true,
-        last_course_activity: true,
-        actions: true
+        title: true,
+        source: true,
+        description: true,
+        url: true,
+        imageUrl: true,
+        date: true,
+        actions: true,
     });
 
     const modalContext = useContext(ModalContext);
@@ -45,14 +56,14 @@ const ManageReal = () => {
 
 
     const handleView = (selectedUser) => {
-        console.log(selectedUser)
-        const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />
+    
+        const addCollateral = <ViewNewsModal item={selectedUser} />
         handleModalData(addCollateral, "lg")
     }
 
     const handleDeteleUser = (item) => {
         const userReportDelete = <DeleteUserReportModal />
-        handleModalData(userReportDelete, "md")
+        handleModalData(userReportDelete, "sm")
     }
 
     const handleChange = (pagination, filters, sorter) => {
@@ -68,48 +79,49 @@ const ManageReal = () => {
         setFilteredData(filtered);
     };
 
+    const handleAddNews = () => {
+      
+        const addCollateral = <AddNewsModal />
+        handleModalData(addCollateral, "md")
+    }
+    const handleEditNews = () => {
+      
+        const addCollateral = <EditNewsForm />
+        handleModalData(addCollateral, "md")
+    }
+   
+
 
     const allColumns = [
-        { title: "Title", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Content", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Created At", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
-        { title: "update date", dataIndex: "ph_number", key: "ph_number", width: 150, sorter: (a, b) => a.ph_number - b.ph_number },
-        { title: "Active", dataIndex: "address", key: "address", width: 150, sorter: (a, b) => a.address.localeCompare(b.address) },
-        { title: "Status", dataIndex: "city", key: "city", width: 150, sorter: (a, b) => a.city.localeCompare(b.city) },
+        { title: "Title", dataIndex: "title", key: "title" },
+        { title: "Source", dataIndex: "source", key: "source" },
+        { title: "Description", dataIndex: "description", key: "description" },
+        { title: "URL", dataIndex: "url", key: "url" },
+        { title: "Image URL", dataIndex: "imageUrl", key: "imageUrl" },
+        { title: "Date", dataIndex: "date", key: "date" },
         {
-            title: "Actions",
-            key: "actions",
-            render: (item) => (
+            title: "Actions", key: "actions", render: (item) => (
                 <div className="action-buttons">
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
-                    <Button type="dashed" className="edit-btn" onClick={()=>handleEdit()}>
+                    <Button type="dashed" className="edit-btn" onClick={()=>handleEditNews()}>
                         Edit
                     </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)}>
+                    <Button type="dashed" className="edit-btn">
+                        Aprove
+                    </Button>
+                    <Button type="dashed" className="edit-btn">
+                        Rejected
+                    </Button>
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()}>
                         Delete
                     </Button>
                 </div>
-            ),
-            fixed: "right"
-
+            )
         },
     ];
-
     const columns = allColumns.filter(col => columnsConfig[col.key]);
-
-
-    const handleCreate = (item) => {
-        const userReportDelete = <CreateBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-    
-    const handleEdit = (item) => {
-        const userReportDelete = <EditBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-
 
     return (
         <div className="fancy-table-container">
@@ -128,12 +140,11 @@ const ManageReal = () => {
                         Select Columns
                     </Button>
                 </div>
-                <div>
-                    <Button type="default"  style={{ marginRight: "5px" }} onClick={()=>handleCreate()}>
-                       Create Blog
+                <div>         
+                    <Button type="default" onClick={handleAddNews}>
+                       Create News
                     </Button>
                 </div>
-
             </div>
             <Table
                 columns={columns}
@@ -142,7 +153,6 @@ const ManageReal = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-
             <Drawer
                 title="Select Table Columns"
                 placement="right"
@@ -173,4 +183,4 @@ const ManageReal = () => {
     );
 };
 
-export default ManageReal;
+export default ManageNews;

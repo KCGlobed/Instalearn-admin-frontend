@@ -1,62 +1,50 @@
 import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions, Drawer, Checkbox } from "antd";
+import { Table, Button, Input, Drawer, Checkbox } from "antd";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
-import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
-import CreateBlogModal from "../../modals/CreateBlogModal";
-import EditBlogModal from "../../modals/EditBlogModal";
 
+export const initialData = [
+    {
+        key: "1",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        ph_number: "1234567890",
+        subscribed_course: "Advanced React",
+        subscription_date: "2025-03-15"
+    },
+    {
+        key: "2",
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        ph_number: "9876543210",
+        subscribed_course: "Python for Data Science",
+        subscription_date: "2025-03-12"
+    }
+];
 
-
-
-const ManageReal = () => {
-    const [sortedInfo, setSortedInfo] = useState({});
+const SubscribedUsers = () => {
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [columnsConfig, setColumnsConfig] = useState({
         name: true,
-        age: true,
         email: true,
         ph_number: true,
-        address: true,
-        city: true,
-        state: true,
-        country: true,
-        pincode: true,
-        last_Login: true,
-        isActive: true,
-        permission: true,
-        courses: true,
-        wishlist: true,
-        mygoals: true,
-        review: true,
-        total_watch_time: true,
-        certificates_earned: true,
-        enrolled_date: true,
-        subscription_type: true,
-        last_course_activity: true,
+        subscribed_course: true,
+        subscription_date: true,
         actions: true
     });
 
     const modalContext = useContext(ModalContext);
     const { handleModalData } = modalContext;
 
-
     const handleView = (selectedUser) => {
-        console.log(selectedUser)
-        const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />
-        handleModalData(addCollateral, "lg")
-    }
+        handleModalData(<ViewUserReportModal selectedUser={selectedUser} />, "lg");
+    };
 
-    const handleDeteleUser = (item) => {
-        const userReportDelete = <DeleteUserReportModal />
-        handleModalData(userReportDelete, "md")
-    }
-
-    const handleChange = (pagination, filters, sorter) => {
-        setSortedInfo(sorter);
+    const handleDeleteUser = () => {
+        handleModalData(<DeleteUserReportModal />, "sm");
     };
 
     const handleSearch = () => {
@@ -68,14 +56,12 @@ const ManageReal = () => {
         setFilteredData(filtered);
     };
 
-
     const allColumns = [
-        { title: "Title", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Content", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Created At", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
-        { title: "update date", dataIndex: "ph_number", key: "ph_number", width: 150, sorter: (a, b) => a.ph_number - b.ph_number },
-        { title: "Active", dataIndex: "address", key: "address", width: 150, sorter: (a, b) => a.address.localeCompare(b.address) },
-        { title: "Status", dataIndex: "city", key: "city", width: 150, sorter: (a, b) => a.city.localeCompare(b.city) },
+        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name) },
+        { title: "Email", dataIndex: "email", key: "email", sorter: (a, b) => a.email.localeCompare(b.email) },
+        { title: "Phone Number", dataIndex: "ph_number", key: "ph_number" },
+        { title: "Subscribed Course", dataIndex: "subscribed_course", key: "subscribed_course" },
+        { title: "Subscription Date", dataIndex: "subscription_date", key: "subscription_date" },
         {
             title: "Actions",
             key: "actions",
@@ -84,32 +70,20 @@ const ManageReal = () => {
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
-                    <Button type="dashed" className="edit-btn" onClick={()=>handleEdit()}>
-                        Edit
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)}>
+                  
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()}>
                         Delete
                     </Button>
                 </div>
             ),
             fixed: "right"
-
-        },
+        }
     ];
 
     const columns = allColumns.filter(col => columnsConfig[col.key]);
-
-
-    const handleCreate = (item) => {
-        const userReportDelete = <CreateBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-    
-    const handleEdit = (item) => {
-        const userReportDelete = <EditBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-
+    const handleChange = (pagination, filters, sorter) => {
+        setSortedInfo(sorter);
+    };
 
     return (
         <div className="fancy-table-container">
@@ -129,11 +103,8 @@ const ManageReal = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default"  style={{ marginRight: "5px" }} onClick={()=>handleCreate()}>
-                       Create Blog
-                    </Button>
+                   
                 </div>
-
             </div>
             <Table
                 columns={columns}
@@ -142,7 +113,6 @@ const ManageReal = () => {
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-
             <Drawer
                 title="Select Table Columns"
                 placement="right"
@@ -173,4 +143,4 @@ const ManageReal = () => {
     );
 };
 
-export default ManageReal;
+export default SubscribedUsers;

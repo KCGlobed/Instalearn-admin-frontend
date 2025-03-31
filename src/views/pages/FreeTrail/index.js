@@ -1,62 +1,74 @@
 import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions, Drawer, Checkbox } from "antd";
+import { Table, Button, Input, Drawer, Checkbox } from "antd";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
-import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
-import CreateBlogModal from "../../modals/CreateBlogModal";
-import EditBlogModal from "../../modals/EditBlogModal";
+import FreeTrialForm from "../../modals/AddFreeTrailModal";
+import EditFreeTrialForm from "../../modals/EditFreeTrailModal";
+export const initialData = [
+    {
+        key: "1",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        ph_number: "1234567890",
+        free_trial_course: "React for Beginners",
+        enrolled_date: "2025-03-15"
+    },
+    {
+        key: "2",
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        ph_number: "9876543210",
+        free_trial_course: "Intro to Python",
+        enrolled_date: "2025-03-12"
+    },
+    {
+        key: "3",
+        name: "Robert Brown",
+        email: "robert.brown@example.com",
+        ph_number: "4561237890",
+        free_trial_course: "Web Development Bootcamp",
+        enrolled_date: "2025-03-10"
+    },
+    {
+        key: "4",
+        name: "Emily Johnson",
+        email: "emily.johnson@example.com",
+        ph_number: "7894561230",
+        free_trial_course: "Machine Learning Basics",
+        enrolled_date: "2025-03-18"
+    }
+];
 
 
-
-
-const ManageReal = () => {
-    const [sortedInfo, setSortedInfo] = useState({});
+const FreeTrail = () => {
     const [searchText, setSearchText] = useState("");
     const [filteredData, setFilteredData] = useState(initialData);
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [columnsConfig, setColumnsConfig] = useState({
         name: true,
-        age: true,
         email: true,
         ph_number: true,
-        address: true,
-        city: true,
-        state: true,
-        country: true,
-        pincode: true,
-        last_Login: true,
-        isActive: true,
-        permission: true,
-        courses: true,
-        wishlist: true,
-        mygoals: true,
-        review: true,
-        total_watch_time: true,
-        certificates_earned: true,
+        free_trial_course: true,
         enrolled_date: true,
-        subscription_type: true,
-        last_course_activity: true,
         actions: true
     });
 
     const modalContext = useContext(ModalContext);
     const { handleModalData } = modalContext;
 
-
     const handleView = (selectedUser) => {
-        console.log(selectedUser)
-        const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />
-        handleModalData(addCollateral, "lg")
-    }
+        const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />;
+        handleModalData(addCollateral, "lg");
+    };
+    const handleAdd = (selectedUser) => {
+        const addCollateral = <FreeTrialForm selectedUser={selectedUser} />;
+        handleModalData(addCollateral, "md");
+    };
 
-    const handleDeteleUser = (item) => {
-        const userReportDelete = <DeleteUserReportModal />
-        handleModalData(userReportDelete, "md")
-    }
-
-    const handleChange = (pagination, filters, sorter) => {
-        setSortedInfo(sorter);
+    const handleDeleteUser = (item) => {
+        const userReportDelete = <DeleteUserReportModal />;
+        handleModalData(userReportDelete, "sm");
     };
 
     const handleSearch = () => {
@@ -68,14 +80,19 @@ const ManageReal = () => {
         setFilteredData(filtered);
     };
 
+    const  handleEditFreeTrail=()=>{
+        const edit = <EditFreeTrialForm  />;
+        handleModalData(edit, "md");
+    }
+
+    
 
     const allColumns = [
-        { title: "Title", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Content", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Created At", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
-        { title: "update date", dataIndex: "ph_number", key: "ph_number", width: 150, sorter: (a, b) => a.ph_number - b.ph_number },
-        { title: "Active", dataIndex: "address", key: "address", width: 150, sorter: (a, b) => a.address.localeCompare(b.address) },
-        { title: "Status", dataIndex: "city", key: "city", width: 150, sorter: (a, b) => a.city.localeCompare(b.city) },
+        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
+        { title: "Email", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
+        { title: "Phone Number", dataIndex: "ph_number", key: "ph_number", width: 150, sorter: (a, b) => a.ph_number - b.ph_number },
+        { title: "Free Trial Course", dataIndex: "free_trial_course", key: "free_trial_course", width: 200, render: (course) => course || "N/A" },
+        { title: "Enrolled Date", dataIndex: "enrolled_date", key: "enrolled_date", width: 150 },
         {
             title: "Actions",
             key: "actions",
@@ -84,65 +101,47 @@ const ManageReal = () => {
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
-                    <Button type="dashed" className="edit-btn" onClick={()=>handleEdit()}>
+                    <Button type="dashed" className="edit-btn" onClick={() => handleEditFreeTrail()}>
                         Edit
                     </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)}>
+                    <Button type="dashed" className="edit-btn">
+                        Aprove
+                    </Button>
+                    <Button type="dashed" className="edit-btn">
+                        Rejected
+                    </Button>
+                    <Button type="danger" className="delete-btn" onClick={() => handleDeleteUser()}>
                         Delete
                     </Button>
                 </div>
             ),
             fixed: "right"
-
         },
     ];
 
     const columns = allColumns.filter(col => columnsConfig[col.key]);
 
-
-    const handleCreate = (item) => {
-        const userReportDelete = <CreateBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-    
-    const handleEdit = (item) => {
-        const userReportDelete = <EditBlogModal />
-        handleModalData(userReportDelete, "lg")
-    }
-
-
     return (
         <div className="fancy-table-container">
             <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
-                <div className="table_search" >
+                <div className="table_search">
                     <Input
                         placeholder="Search in all fields"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         onPressEnter={handleSearch}
                     />
-                    <Button type="primary" onClick={handleSearch} >
-                        Search
-                    </Button>
-                    <Button type="primary" className="ms-2" onClick={() => setDrawerVisible(true)} >
-                        Select Columns
-                    </Button>
+                    <Button type="primary" onClick={handleSearch}>Search</Button>
+                    <Button type="primary" className="ms-2" onClick={() => setDrawerVisible(true)}>Select Columns</Button>
                 </div>
-                <div>
-                    <Button type="default"  style={{ marginRight: "5px" }} onClick={()=>handleCreate()}>
-                       Create Blog
-                    </Button>
-                </div>
-
+                <Button type="default" onClick={handleAdd}>Create Free Trial </Button>
             </div>
             <Table
                 columns={columns}
                 dataSource={filteredData}
-                onChange={handleChange}
                 className="fancy-table"
                 scroll={{ x: 'max-content', y: 500 }}
             />
-
             <Drawer
                 title="Select Table Columns"
                 placement="right"
@@ -165,12 +164,10 @@ const ManageReal = () => {
                         </div>
                     ))}
                 </div>
-                <Button type="primary" block onClick={() => setDrawerVisible(false)}>
-                    Apply
-                </Button>
+                <Button type="primary" block onClick={() => setDrawerVisible(false)}>Apply</Button>
             </Drawer>
         </div>
     );
 };
 
-export default ManageReal;
+export default FreeTrail;
