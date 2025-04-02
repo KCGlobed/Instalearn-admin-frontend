@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Table, Button, Input, Switch, Spin } from 'antd'
+import { Table, Button, Input, Switch, Spin , Tooltip } from 'antd'
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { jsPDF } from 'jspdf'
 import * as XLSX from 'xlsx'
@@ -67,6 +67,7 @@ const Category = () => {
   }
 
   const handleDelete = async (id) => {
+    const token = localStorage.getItem('access_token')
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -120,17 +121,19 @@ const Category = () => {
 
   const columns = [
     { title: 'Category Name', dataIndex: 'name', key: 'name', width: 200 },
-    { 
-        title: 'Description', 
-        dataIndex: 'description', 
-        key: 'description', 
-        width: 400,
-        render: (text) => (
-            <div style={{ whiteSpace: "pre-line", wordBreak: "break-word", maxHeight: "3.6em", overflow: "hidden" }}>
-                {text.length > 100 ? text.substring(0, 100) + "..." : text}
-            </div>
-        )
-    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      width: 400,
+      render: (text) => (
+          <Tooltip title={text} overlayStyle={{ maxWidth: "400px", whiteSpace: "pre-line" }}>
+              <div style={{ whiteSpace: "pre-line", wordBreak: "break-word", maxHeight: "3.6em", overflow: "hidden", textOverflow: "ellipsis", cursor: "pointer" }}>
+                  {text.length > 100 ? text.substring(0, 100) + "..." : text}
+              </div>
+          </Tooltip>
+      ),
+  },
     {
       title: 'Status',
       key: 'active',

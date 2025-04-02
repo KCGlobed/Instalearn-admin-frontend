@@ -84,6 +84,11 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'SubCategory',
+        to: '/sub-category',
+      },
+      {
+        component: CNavItem,
         name: 'Topic',
         to: '/topic',
       },
