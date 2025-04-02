@@ -19,7 +19,7 @@ const DeleteChapter = ({ handleGetApi, item }) => {
             handleGetApi();
             closeModal();
         } catch (error) {
-            toast.error("Error deleting badge!");
+            toast.error("Something went wrong!");
             console.error(error);
         } finally {
             setLoading(false);

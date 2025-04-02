@@ -15,7 +15,7 @@ import { AppSidebarNav } from './AppSidebarNav'
 import navigation from '../_nav'
 
 // Import the logo properly
-import logo from 'src/assets/images/logo.png'
+import logo from 'src/assets/images/instalearnlogo.png'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
