@@ -292,3 +292,21 @@ body {
   background-color: #343a40;
 }
 
+.sidebar{
+  background: #1b044e;
+}
+.sidebar-nav .nav-link.active {
+  background: rgb(122 67 163);
+}
+.sidebar-nav .nav-link:hover {
+  background: rgb(122 67 163);
+}
+
+.login_img{
+  display: flex;
+  justify-content: center;
+}
+.login_img_logo{
+  width: 250px;
+}
+

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Table, Button, Input, Descriptions, Drawer, Checkbox } from "antd";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Table, Button, Input, Descriptions, Drawer, Checkbox, Switch } from "antd";
 import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined } from "@ant-design/icons";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
@@ -7,10 +7,11 @@ import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 import CreateBlogModal from "../../modals/CreateBlogModal";
 import EditBlogModal from "../../modals/EditBlogModal";
-import { handleChapterListApi } from "../../../utils/services";
+import { handleActiveChapterApi, handleChapterListApi } from "../../../utils/services";
 import AddChapterModal from "../../modals/AddChapterModal";
 import EditChapterModal from "../../modals/EditChapterModal";
 import DeleteChapter from "../../modals/DeleteChapter";
+import toast from "react-hot-toast";
 
 
 
@@ -26,7 +27,8 @@ const Chapter = () => {
         email: true,
         visible: true,
         description: true,
-        actions: true
+        actions: true,
+        active: true
     });
 
     const modalContext = useContext(ModalContext);
@@ -55,54 +57,49 @@ const Chapter = () => {
     };
 
 
-    const allColumns = [
+    // Handle Toggle Active Status
+    const handleToggleActive = useCallback(async (id, checked) => {
+        console.log(checked)
+        try {
+            await handleActiveChapterApi({ status: checked ? "1" : "0" }, id);
+            handleChapter()
+            toast.success("Successfully updated!");
+        } catch (error) {
+            console.error("Error updating active status:", error);
+        }
+    }, []);
+
+
+    const allColumns = useMemo(() => [
         { title: "Title", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Description", dataIndex: "description", key: "description", },
-        { title: "Created At", dataIndex: "create_at", key: "create_at",  },
-        { title: "update date", dataIndex: "ph_number", key: "ph_number",  },
-        { title: "Active", dataIndex: "visible", key: "visible",  render: (item) => `${item.visible === "1" ? "Yes" : "No"}` },
+        { title: "Description", dataIndex: "description", key: "description" ,width:200 },
+        { title: "Created At", dataIndex: "create_at", key: "create_at" },
+        { title: "Update Date", dataIndex: "ph_number", key: "ph_number" },
+        { title: "Active Status", key: "visible",render:(item)=>`${item.visible ==1 ? "Yes" :"No"}`,width:150 },
         { title: "Status", dataIndex: "city", key: "city" },
+        {
+            title: "Active",
+            key: "active",
+            render: (staff) => (
+                <Switch checked={staff.visible} onChange={(checked) => handleToggleActive(staff.id, checked)} />
+            ),
+        
+        },
         {
             title: "Actions",
             key: "actions",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button
-                        type="text"
-                        icon={<EyeOutlined style={{ color: "white" }} />}
-                        className="icon_btn aprove_icon"
-                    />
-                    <Button
-                        type="text"
-                        icon={<EditOutlined style={{ color: "white" }} />}
-                        className="icon_btn edit_icon"
-                        onClick={()=>handleEdit(item)}
-                    />
-
-                    <Button
-                        type="text"
-                        icon={<DeleteOutlined />}
-
-                        className="icon_btn delete_icon"
-                        onClick={()=>handleDelete(item)}
-                    />
-                    <Button
-                        type="text"
-                        icon={<CheckCircleOutlined />}
-                        className="icon_btn aprove_icon"
-                    />
-                    <Button
-                        type="text"
-                        icon={<CloseCircleFilled />}
-                        className="icon_btn reject_icon"
-                    />
-
+                    <Button type="text" icon={<EyeOutlined style={{ color: "white" }} />} className="icon_btn aprove_icon" />
+                    <Button type="text" icon={<EditOutlined style={{ color: "white" }} />} className="icon_btn edit_icon" onClick={() => handleEdit(item)} />
+                    <Button type="text" icon={<DeleteOutlined />} className="icon_btn delete_icon" onClick={() => handleDelete(item)} />
+                    <Button type="text" icon={<CheckCircleOutlined />} className="icon_btn aprove_icon" />
+                    <Button type="text" icon={<CloseCircleFilled />} className="icon_btn reject_icon" />
                 </div>
             ),
-            fixed: "right"
-
+            fixed: "right",
         },
-    ];
+    ], [handleToggleActive]); 
 
     const columns = allColumns.filter(col => columnsConfig[col.key]);
 
@@ -113,12 +110,12 @@ const Chapter = () => {
     }
 
     const handleEdit = (chapterData) => {
-        const userReportDelete = <EditChapterModal chapterData={chapterData} handleChapter={handleChapter}   />
+        const userReportDelete = <EditChapterModal chapterData={chapterData} handleChapter={handleChapter} />
         handleModalData(userReportDelete, "lg")
     }
 
     const handleDelete = (item) => {
-        const Delete = <DeleteChapter item={item} handleGetApi={handleChapterListApi} />
+        const Delete = <DeleteChapter item={item} handleGetApi={handleChapter} />
         handleModalData(Delete, "md")
     }
 
@@ -126,6 +123,7 @@ const Chapter = () => {
         let result = await handleChapterListApi();
         setFilteredData(result.res.results)
     }
+
 
     useEffect(() => {
         handleChapter()
@@ -190,7 +188,7 @@ const Chapter = () => {
                     Apply
                 </Button>
             </Drawer>
-     
+
         </div>
     );
 };

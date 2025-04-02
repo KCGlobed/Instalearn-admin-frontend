@@ -1,4 +1,4 @@
-import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE, CHAPTER, CHAPTER_CREATE, CHAPTER_DELETE, CHAPTER_UPDATE, STAFF_CREATE, STAFF_IS_ACTIVE, STAFF_LIST, STAFF_PERMISSION_LIST, STAFF_PERMISSION_UPDATE, STAFF_UPDATE, STAFF_VIEW,USER_DOWNLOAD_EXCEL,USER_DOWNLOAD_PDF, USER_REPORT_LIST} from "./apiroutes"
+import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE, CHAPTER, CHAPTER_CREATE, CHAPTER_DELETE, CHAPTER_ISACTIVE, CHAPTER_UPDATE, STAFF_CREATE, STAFF_IS_ACTIVE, STAFF_LIST, STAFF_PERMISSION_LIST, STAFF_PERMISSION_UPDATE, STAFF_UPDATE, STAFF_VIEW,USER_DOWNLOAD_EXCEL,USER_DOWNLOAD_PDF, USER_REPORT_LIST} from "./apiroutes"
 import axios from 'axios'
 export const BASE_URL = 'https://instalearn-admin-backend-254015706580.asia-south2.run.app/api' 
 
@@ -342,6 +342,26 @@ export const getListOfBadge = async (data) => {
       throw err.message;
     }
   };
+
+
+  export const handleActiveChapterApi = async (data,id) => {
+    try {
+      const response = await axios.post(`${CHAPTER_ISACTIVE}/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
 
   
   
