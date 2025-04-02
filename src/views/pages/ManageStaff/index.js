@@ -4,8 +4,10 @@ import { ModalContext } from "../../../Context";
 import AddStaffModal from "../../modals/AddStaffModal";
 import EditStaffModal from "../../modals/EditStaffModal";
 import { getListOfStaff, handleActiveStaffApi } from "../../../utils/services";
-import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
+import ViewStaffModal from "../../modals/ViewStaffModal";
+import { useNavigate } from "react-router-dom";
 
 const ManageStaff = () => {
     const [searchText, setSearchText] = useState("");
@@ -14,6 +16,8 @@ const ManageStaff = () => {
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const modalContext = useContext(ModalContext);
+    const { handleModalData } = modalContext;
+    const navigate = useNavigate();
 
     // Fetch Staff List (Runs Only Once)
     const fetchStaffList = async () => {
@@ -70,31 +74,46 @@ const ManageStaff = () => {
             width: 150
         },
         {
+            title: "Permision",
+            key: "active",
+            render: (staff) => (
+                <Button className="" onClick={() => handlePermison(staff.id)}> Give Permision</Button>
+            ),
+            width: 150
+        },
+        {
             title: "Actions",
             key: "actions",
             render: (staff) => (
                 <div className="action-buttons">
-
                     <Button
                         type="text"
-                        icon={<EditOutlined style={{ color: "black" }} />}
+                        icon={<EyeOutlined style={{ color: "white" }} />}
+                        className="icon_btn aprove_icon"
+                        onClick={() => handleView(staff.id)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<EditOutlined style={{ color: "white" }} />}
                         onClick={() => { setSelectedStaff(staff); setIsEditModalVisible(true); }}
+                        className="icon_btn edit_icon"
                     />
 
                     <Button
                         type="text"
-                        icon={<DeleteOutlined style={{ color: "red" }} />}
+                        icon={<DeleteOutlined />}
                         onClick={() => handleDelete(item.id)}
+                        className="icon_btn delete_icon"
                     />
                     <Button
                         type="text"
-                        icon={<CheckCircleOutlined style={{ color: "green",fontWeight:"bold" }} />}
-                        
+                        icon={<CheckCircleOutlined />}
+                        className="icon_btn aprove_icon"
                     />
-                      <Button
+                    <Button
                         type="text"
-                        icon={<CloseCircleFilled style={{ color: "orange",fontWeight:"bold" }} />}
-                        
+                        icon={<CloseCircleFilled />}
+                        className="icon_btn reject_icon"
                     />
 
 
@@ -102,6 +121,15 @@ const ManageStaff = () => {
             ),
         },
     ], [handleToggleActive]);
+
+
+    const handleView = (id) => {
+        const addCollateral = <ViewStaffModal id={id} />
+        handleModalData(addCollateral, "lg")
+    }
+    const handlePermison = (id) => {
+        navigate(`/staff/manage-permission/${id}`);
+    }
 
     return (
         <div className="fancy-table-container">

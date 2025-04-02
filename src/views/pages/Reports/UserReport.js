@@ -6,6 +6,7 @@ import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
+import { handleDownloadExcelUserApi, handleDownloadPdfUserApi } from "../../../utils/services";
 
 
 
@@ -67,23 +68,21 @@ const UserReport = () => {
         setFilteredData(filtered);
     };
 
-    const exportToPDF = () => {
-        const doc = new jsPDF();
-        let y = 10;
-        doc.text("Fancy Table Data", 10, y);
-        y += 10;
-        filteredData.forEach((item) => {
-            doc.text(`${item.name}, ${item.age}, ${item.address}`, 10, y);
-            y += 10;
-        });
-        doc.save("table_data.pdf");
+    const exportToPDF =async() => {
+        let result = await handleDownloadPdfUserApi()
+        const pdfUrl = result.res.data;
+        window.open(pdfUrl, "_blank");       
     };
 
-    const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(filteredData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, "table_data.xlsx");
+    const exportToExcel = async() => {
+        let result = await handleDownloadExcelUserApi()
+        const csvUrl = result.res.data;
+        const link = document.createElement("a");
+        link.href = csvUrl;
+        link.download = "student_report.csv"; 
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const allColumns = [

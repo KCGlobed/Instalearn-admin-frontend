@@ -59,6 +59,11 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Chapters',
+        to: '/chapters',
+      },
+      {
+        component: CNavItem,
         name: 'Category',
         to: '/category',
       },
@@ -191,6 +196,12 @@ const _nav = [
     component: CNavItem,
     name: 'Manage Events',
     to: '/event',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'My Profile',
+    to: '/my-profile',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   

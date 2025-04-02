@@ -67,8 +67,6 @@ const Category = () => {
   }
 
   const handleDelete = async (id) => {
-    const token = localStorage.getItem('access_token')
-
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -199,12 +197,7 @@ const Category = () => {
           Create Category
         </Button>
       </div>
-      {/* <Table
-        columns={columns}
-        dataSource={categories}
-        className="fancy-table"
-        scroll={{ x: 'max-content', y: 500 }}
-      /> */
+  
       
       <Spin spinning={loading}>
       <Table
@@ -213,7 +206,7 @@ const Category = () => {
           className="fancy-table"
           scroll={{ x: "max-content", y: 500 }}
       />
-  </Spin>}
+    </Spin>
       <AddCategoryModal
         visible={isAddModalVisible}
         onCancel={() => setIsAddModalVisible(false)}

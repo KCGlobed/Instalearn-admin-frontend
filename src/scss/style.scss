@@ -228,3 +228,67 @@ body {
   background: #f5f5f5;
   padding: 5px;
 }
+
+.icon_btn{
+  background-color: #8746FF;
+}
+.delete_icon{
+  color: #ff4343;
+}
+.delete_icon:hover{
+  background-color: #d32f2f !important;
+  color: #fff !important;
+}
+.aprove_icon{
+  color: #5de461;
+}
+.aprove_icon:hover{
+  background-color: #16a23c !important;
+  color: #fff !important;
+}
+.reject_icon{
+  color: #ff9800;
+}
+.reject_icon:hover{
+  background-color: #ff9800 !important;
+  color: #fff !important;
+}
+.edit_icon:hover{
+  background-color:rgb(26, 26, 196) !important;
+}
+.manage_staff_permission{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+
+/* Add smooth animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate__fadeIn {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Custom profile image styles */
+.profile-img {
+  width: 100px;
+  height: 100px;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Custom banner image styles */
+.banner-image {
+  height: 200px;
+  background-color: #343a40;
+}
+

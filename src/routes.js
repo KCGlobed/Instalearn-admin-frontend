@@ -29,6 +29,9 @@ const ManageNews =React.lazy(() => import('./views/pages/News/index'))
 const FreeTrail =React.lazy(() => import('./views/pages/FreeTrail/index'))
 const SubscribeUser =React.lazy(() => import('./views/pages/SubscribeUser/index'))
 const Event =React.lazy(() => import('./views/pages/Event/index'))
+const ManagePermissions =React.lazy(() => import('./views/pages/ManageStaff/ManagePermission'))
+const MyProfile =React.lazy(() => import('./views/pages/Profile/index'))
+const Chapter =React.lazy(() => import('./views/pages/Course/Chapter'))
 
 
 
@@ -58,6 +61,9 @@ const routes = [
   { path: '/free-trail', name: 'Free Trail', element: <PrivateRoute element={<FreeTrail />} /> },
   { path: '/subscribe-users', name: 'Subscribe User', element: <PrivateRoute element={<SubscribeUser />} /> },
   { path: '/event', name: 'Subscribe User', element: <PrivateRoute element={<Event />} /> },
+  { path: '/staff/manage-permission/:id', name: 'Subscribe User', element: <PrivateRoute element={<ManagePermissions />} /> },
+  { path: '/my-profile', name: 'My Profile', element: <PrivateRoute element={<MyProfile />} /> },
+  { path: '/chapters', name: 'My Profile', element: <PrivateRoute element={<Chapter />} /> },
 ];
 
 

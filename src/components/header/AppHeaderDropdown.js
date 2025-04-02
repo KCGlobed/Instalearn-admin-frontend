@@ -9,7 +9,7 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   cilBell,
   cilCreditCard,
@@ -85,7 +85,7 @@ const AppHeaderDropdown = () => {
           <CBadge color="warning" className="ms-2">42</CBadge>
         </CDropdownItem>
         <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={()=> navigate("/my-profile")} >
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>
