@@ -63,7 +63,7 @@ const SubCategory = () => {
     }
   }
 
-  // Delete Sub Category
+  
   const handleDelete = async (id) => {
     const token = localStorage.getItem('access_token')
     const confirmDelete = await Swal.fire({
@@ -101,7 +101,7 @@ const SubCategory = () => {
     setSubCategories(filtered)
   }
 
-  // Export Data to PDF
+  
   const exportToPDF = () => {
     const doc = new jsPDF()
     let y = 10

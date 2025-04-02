@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Table, Button, Input, Switch, Spin , Tooltip } from 'antd'
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined,  CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { jsPDF } from 'jspdf'
 import * as XLSX from 'xlsx'
 import { ModalContext } from '../../../Context'
@@ -155,13 +155,15 @@ const Category = () => {
             <div className="action-buttons">
                 <Button
                     type="text"
-                    icon={<EditOutlined style={{ color: "black" }} />}
+                    icon={<EditOutlined style={{ color: "white" }} />}
                     onClick={() => handleEdit(item)}
+                     className="icon_btn edit_icon"
                 />
                 <Button
                     type="text"
-                    icon={<DeleteOutlined style={{ color: "red" }} />}
+                    icon={<DeleteOutlined style={{ color: "white" }} />}
                     onClick={() => handleDelete(item.id)}
+                     className="icon_btn edit_icon"
                 />
             </div>
         ),
@@ -180,25 +182,42 @@ const Category = () => {
 
   return (
     <div className="fancy-table-container">
-      <div style={{ marginBottom: 16, display: 'flex', gap: '8px' }}>
-        <Input
-          placeholder="Search in all fields"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onPressEnter={handleSearch}
-        />
-        <Button type="primary" onClick={handleSearch}>
-          Search
-        </Button>
-        <Button type="default" onClick={exportToPDF}>
-          Download PDF
-        </Button>
-        <Button type="default" onClick={exportToExcel}>
-          Download Excel
-        </Button>
-        <Button type="default" onClick={handleAdd}>
+       <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
+       <div className="table_search" >
+                          <Input
+                              placeholder="Search in all fields"
+                              value={searchText}
+                              onChange={(e) => setSearchText(e.target.value)}
+                              onPressEnter={handleSearch}
+                          />
+                          <Button type="primary" onClick={handleSearch} >
+                              Search
+                          </Button>
+                          <Button type="primary" className="ms-2" onClick={() => setDrawerVisible(true)} >
+                              Select Columns
+                          </Button>
+                      </div>
+                      <div>
+       
+          <Button
+                                type="text"
+                                icon={<FilePdfOutlined style={{ color: "red" }} />}
+                                className="pdf_btn"
+                                onClick={exportToPDF}
+                                style={{ marginRight: "11px" }}
+                            >Pdf</Button>
+        <Button
+                               type="text"
+                               icon={<FileExcelOutlined style={{ color: "green" }} />}
+                               className="excel_btn"
+                               onClick={exportToExcel}
+                               style={{ marginRight: "9px" }}
+                           >Excel</Button>
+
+       <Button type="default" className="create_badgebtn" onClick={handleAdd}  >
           Create Category
         </Button>
+        </div>
       </div>
   
       
