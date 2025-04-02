@@ -139,12 +139,6 @@ const CorporateReport = () => {
                     <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
                         View
                     </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Excel
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Pdf
-                    </Button>
                     <Button type="danger" className="delete-btn" onClick={()=>handleDeteleUser(item)} >
                         Delete
                     </Button>

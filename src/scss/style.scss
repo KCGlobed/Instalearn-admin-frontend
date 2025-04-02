@@ -233,21 +233,21 @@ body {
   background-color: #8746FF;
 }
 .delete_icon{
-  color: #ff4343;
+  color: #fff
 }
 .delete_icon:hover{
   background-color: #d32f2f !important;
   color: #fff !important;
 }
 .aprove_icon{
-  color: #5de461;
+  color: #fff;
 }
 .aprove_icon:hover{
   background-color: #16a23c !important;
   color: #fff !important;
 }
 .reject_icon{
-  color: #ff9800;
+  color: #fff;
 }
 .reject_icon:hover{
   background-color: #ff9800 !important;
@@ -308,5 +308,14 @@ body {
 }
 .login_img_logo{
   width: 250px;
+}
+
+.excel_btn{
+  border: 1px solid green;
+  color: #16a23c;
+}
+.pdf_btn{
+  border: 1px solid red;
+  color: red;
 }
 

@@ -7,6 +7,8 @@ import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
 import { DiscountReportData } from "../../../_dummyData/discountReportData";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
+
 
 
 const DiscountReport = () => {
@@ -96,18 +98,18 @@ const DiscountReport = () => {
             fixed: "right",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
-                        View
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Excel
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Pdf
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)} >
-                        Delete
-                    </Button>
+                     <Button
+                        type="text"
+                        icon={<EyeOutlined style={{ color: "white" }} />}
+                        className="icon_btn aprove_icon"
+                        onClick={() => handleView(item)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeteleUser(item)}
+                        className="icon_btn delete_icon"
+                    />
                 </div>
             ),
         },

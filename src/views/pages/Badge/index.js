@@ -10,6 +10,8 @@ import EditBadge from "../../modals/editBadge";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 import { getListOfBadge } from "../../../utils/services";
 import DeleteBadgeModal from "../../modals/DeleteBadgeModal";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
+
 
 
 
@@ -74,13 +76,19 @@ const Badge = () => {
             key: "actions",
             render: (item) => (
                 <div className="action-buttons">
+                    <Button
+                        type="text"
+                        icon={<EditOutlined style={{ color: "white" }} />}
+                        onClick={() => EditBadgeModal(item)}
+                        className="icon_btn edit_icon"
+                    />
 
-                    <Button type="dashed" className="edit-btn" onClick={() => EditBadgeModal(item)}>
-                        Edit
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleBadge(item)}>
-                        Delete
-                    </Button>
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeteleBadge(item)}
+                        className="icon_btn delete_icon"
+                    />
                 </div>
             ),
             fixed: "right"
@@ -93,11 +101,11 @@ const Badge = () => {
         handleModalData(create, "md")
     }
     const EditBadgeModal = (item) => {
-        const EditBadgeModal = <EditBadge handleGetApi={handleGetApi} item={item}  />
+        const EditBadgeModal = <EditBadge handleGetApi={handleGetApi} item={item} />
         handleModalData(EditBadgeModal, "md")
     }
     const handleDeteleBadge = (item) => {
-        const userReportDelete = <DeleteBadgeModal handleGetApi={handleGetApi}  item={item}  />
+        const userReportDelete = <DeleteBadgeModal handleGetApi={handleGetApi} item={item} />
         handleModalData(userReportDelete, "sm")
     }
     const handleGetApi = async () => {
@@ -109,9 +117,9 @@ const Badge = () => {
         }
     }
     useEffect(() => {
-        
+
         handleGetApi()
-     }, [])
+    }, [])
 
     return (
         <div className="fancy-table-container">
@@ -128,7 +136,7 @@ const Badge = () => {
                     </Button>
                 </div>
                 <div>
-                 
+
                     <Button type="default" className="create_badgebtn" onClick={() => CreateBadgeModal()}>
                         Create Badge
                     </Button>

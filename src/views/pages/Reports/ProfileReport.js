@@ -6,6 +6,7 @@ import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
 
 export const profileData = Array.from({ length: 20 }, (_, index) => ({
     user_id: `U-${1000 + index}`,
@@ -166,18 +167,18 @@ const ProfileReport = () => {
             fixed: "right",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
-                        View
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Excel
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Pdf
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()} >
-                        Delete
-                    </Button>
+                    <Button
+                        type="text"
+                        icon={<EyeOutlined style={{ color: "white" }} />}
+                        className="icon_btn aprove_icon"
+                        onClick={() => handleView(item)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeteleUser(item)}
+                        className="icon_btn delete_icon"
+                    />
                 </div>
             ),
             width: 180

@@ -7,8 +7,7 @@ import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 import { handleDownloadExcelUserApi, handleDownloadPdfUserApi } from "../../../utils/services";
-
-
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
 
 const UserReport = () => {
     const [sortedInfo, setSortedInfo] = useState({});
@@ -68,18 +67,18 @@ const UserReport = () => {
         setFilteredData(filtered);
     };
 
-    const exportToPDF =async() => {
+    const exportToPDF = async () => {
         let result = await handleDownloadPdfUserApi()
         const pdfUrl = result.res.data;
-        window.open(pdfUrl, "_blank");       
+        window.open(pdfUrl, "_blank");
     };
 
-    const exportToExcel = async() => {
+    const exportToExcel = async () => {
         let result = await handleDownloadExcelUserApi()
         const csvUrl = result.res.data;
         const link = document.createElement("a");
         link.href = csvUrl;
-        link.download = "student_report.csv"; 
+        link.download = "student_report.csv";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -114,18 +113,18 @@ const UserReport = () => {
             key: "actions",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
-                        View
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Excel
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Pdf
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser(item)}>
-                        Delete
-                    </Button>
+                    <Button
+                        type="text"
+                        icon={<EyeOutlined style={{ color: "white" }} />}
+                        className="icon_btn aprove_icon"
+                        onClick={() => handleView(item)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeteleUser(item)}
+                        className="icon_btn delete_icon"
+                    />
                 </div>
             ),
             fixed: "right"
@@ -153,12 +152,20 @@ const UserReport = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
-                        Download PDF
-                    </Button>
-                    <Button type="default" onClick={exportToExcel}>
-                        Download Excel
-                    </Button>
+                   
+                    <Button
+                        type="text"
+                        icon={<FilePdfOutlined style={{ color: "red" }} />}
+                        className="pdf_btn"
+                        onClick={exportToPDF}
+                        style={{ marginRight: "5px" }}
+                    >Pdf</Button>
+                    <Button
+                        type="text"
+                        icon={<FileExcelOutlined style={{ color: "green" }} />}
+                        className="excel_btn"
+                        onClick={exportToExcel}
+                    >Excel</Button>
                 </div>
 
             </div>
@@ -198,7 +205,7 @@ const UserReport = () => {
                 </Button>
             </Drawer>
 
-            
+
         </div>
     );
 };

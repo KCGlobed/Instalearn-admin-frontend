@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 
-import { EyeOutlined, CheckCircleOutlined, ShareAltOutlined } from "@ant-design/icons";
+import { EyeOutlined, CheckCircleOutlined, ShareAltOutlined, DeleteOutlined } from "@ant-design/icons";
 import { badgeReport } from "../../../_dummyData/badgeData";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
@@ -115,22 +115,22 @@ const BadgeReport = () => {
         {
             title: "Actions",
             key: "actions",
-            width: 200,
+           
             fixed: "right",
             render: (record) => (
                 <div className="action-buttons">
-                    <Button type="primary" className="view-btn" onClick={() => handleView(record)}>
-                        View
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Excel
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Pdf
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={() => handleDeteleUser()} >
-                        Delete
-                    </Button>
+                    <Button
+                        type="text"
+                        icon={<EyeOutlined style={{ color: "white" }} />}
+                        className="icon_btn aprove_icon"
+                        onClick={() => handleView(record)}
+                    />
+                    <Button
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeteleUser()} 
+                        className="icon_btn delete_icon"
+                    />
                 </div>
             ),
         },
