@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   CAvatar,
   CBadge,
@@ -25,10 +25,11 @@ import CIcon from '@coreui/icons-react'
 import Swal from 'sweetalert2'
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
+import { UserContext } from '../../layout/GlobalContext'
 
 const AppHeaderDropdown = () => {
   const navigate = useNavigate()
-
+  const { user } = useContext(UserContext)
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -60,7 +61,7 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0 pe-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        <CAvatar src={user?.image ||avatar8} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Account</CDropdownHeader>

@@ -122,7 +122,7 @@ const Badge = () => {
     }, [])
 
     return (
-        <div className="fancy-table-container">
+        <div className="fancy-table-container" style={{animation: "fadeIn 1s ease-in-out" }}>
             <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
                 <div className="table_search" >
                     <Input

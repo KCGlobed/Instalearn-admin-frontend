@@ -1,4 +1,4 @@
-import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE, CHAPTER, CHAPTER_CREATE, CHAPTER_DELETE, CHAPTER_ISACTIVE, CHAPTER_UPDATE, STAFF_CREATE, STAFF_IS_ACTIVE, STAFF_LIST, STAFF_PERMISSION_LIST, STAFF_PERMISSION_UPDATE, STAFF_UPDATE, STAFF_VIEW,USER_DOWNLOAD_EXCEL,USER_DOWNLOAD_PDF, USER_REPORT_LIST} from "./apiroutes"
+import { BADGE_ADD, BADGE_DELETE, BADGE_LIST, BADGE_UPDATE, CHANGE_PASSWORD, CHAPTER, CHAPTER_CREATE, CHAPTER_DELETE, CHAPTER_ISACTIVE, CHAPTER_UPDATE, EDIT_PROFILE, PROFILE_CHANGE, PROFILE_DETAIL, STAFF_CREATE, STAFF_IS_ACTIVE, STAFF_LIST, STAFF_PERMISSION_LIST, STAFF_PERMISSION_UPDATE, STAFF_UPDATE, STAFF_VIEW,USER_DOWNLOAD_EXCEL,USER_DOWNLOAD_PDF, USER_REPORT_LIST} from "./apiroutes"
 import axios from 'axios'
 export const BASE_URL = 'https://instalearn-admin-backend-254015706580.asia-south2.run.app/api' 
 
@@ -347,6 +347,81 @@ export const getListOfBadge = async (data) => {
   export const handleActiveChapterApi = async (data,id) => {
     try {
       const response = await axios.post(`${CHAPTER_ISACTIVE}/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+
+  export const handleProfileDetails = async (id) => {
+    try {
+      const response = await axios.get(PROFILE_DETAIL,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+
+  export const handleChangeAvatarApi = async (data) => {
+    try {
+      const response = await axios.post(PROFILE_CHANGE,data,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+
+  export const handleChangePasswordApi = async (data) => {
+    try {
+      const response = await axios.post(CHANGE_PASSWORD,data,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      if (response.status === 200) {
+        console.log(response.data)
+        return { res: response.data }
+      } else return response.data
+    } catch (err) {
+      if (err.response) throw err.response.data
+      else throw err.message
+    }
+  }
+
+  export const handleEditPafileApi = async (data) => {
+    try {
+      const response = await axios.post(EDIT_PROFILE,data,{
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
