@@ -7,6 +7,10 @@ import App from './App'
 import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import NetworkServices from './utils/network-services'
+
+NetworkServices()
+
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>

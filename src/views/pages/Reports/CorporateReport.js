@@ -6,6 +6,7 @@ import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 import { corporateUserData } from "../../../_dummyData/corpReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
 
 
 
@@ -19,8 +20,8 @@ const CorporateReport = () => {
     const { handleModalData } = modalContext;
 
 
-    const handleDeteleUser =(item)=>{
-        const userReportDelete = <DeleteUserReportModal  />
+    const handleDeteleUser = (item) => {
+        const userReportDelete = <DeleteUserReportModal />
         handleModalData(userReportDelete, "md")
     }
     const handleView = (selectedUser) => {
@@ -64,15 +65,15 @@ const CorporateReport = () => {
 
     const columns = [
         { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Email", dataIndex: "email", key: "email", width: 150,sorter: (a, b) => a.email.localeCompare(b.email)},
-        { title: "Phone", dataIndex: "phone", key: "phone", width: 150,sorter: (a, b) => a.phone - b.phone},
-        { title: "Company", dataIndex: "company_name", key: "company_name", width: 150,sorter: (a, b) =>a.company_name.localeCompare(b.company_name) },
-        { title: "Department", dataIndex: "department", key: "department", width: 150,sorter: (a, b) =>a.department.localeCompare(b.department) },
-        { title: "Designation", dataIndex: "designation", key: "designation", width: 150, sorter: (a, b) =>a.designation.localeCompare(b.designation)},
-        { title: "Experience (Years)", dataIndex: "years_of_experience", key: "years_of_experience", width: 150,sorter: (a, b) => a.years_of_experience - b.years_of_experience },
-        { title: "Team", dataIndex: "team", key: "team", width: 150,sorter: (a, b) => a.team - b.team },
-        { title: "Employment Type", dataIndex: "employment_type", key: "employment_type", width: 150, sorter: (a, b) =>a.employment_type.localeCompare(b.employment_type) },
-        { title: "Learning Preference", dataIndex: "learning_preference", key: "learning_preference", width: 150 , sorter: (a, b) =>a.learning_preference.localeCompare(b.learning_preference)},
+        { title: "Email", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
+        { title: "Phone", dataIndex: "phone", key: "phone", width: 150, sorter: (a, b) => a.phone - b.phone },
+        { title: "Company", dataIndex: "company_name", key: "company_name", width: 150, sorter: (a, b) => a.company_name.localeCompare(b.company_name) },
+        { title: "Department", dataIndex: "department", key: "department", width: 150, sorter: (a, b) => a.department.localeCompare(b.department) },
+        { title: "Designation", dataIndex: "designation", key: "designation", width: 150, sorter: (a, b) => a.designation.localeCompare(b.designation) },
+        { title: "Experience (Years)", dataIndex: "years_of_experience", key: "years_of_experience", width: 150, sorter: (a, b) => a.years_of_experience - b.years_of_experience },
+        { title: "Team", dataIndex: "team", key: "team", width: 150, sorter: (a, b) => a.team - b.team },
+        { title: "Employment Type", dataIndex: "employment_type", key: "employment_type", width: 150, sorter: (a, b) => a.employment_type.localeCompare(b.employment_type) },
+        { title: "Learning Preference", dataIndex: "learning_preference", key: "learning_preference", width: 150, sorter: (a, b) => a.learning_preference.localeCompare(b.learning_preference) },
         { title: "Last Login", dataIndex: "last_login", key: "last_login", width: 150 },
 
         { title: "Subscription Type", dataIndex: ["subscription", "type"], key: "subscription.type", width: 150 },
@@ -136,12 +137,8 @@ const CorporateReport = () => {
             key: "actions",
             render: (item) => (
                 <div className="action-buttons">
-                    <Button type="primary" className="view-btn" onClick={() => handleView(item)}>
-                        View
-                    </Button>
-                    <Button type="danger" className="delete-btn" onClick={()=>handleDeteleUser(item)} >
-                        Delete
-                    </Button>
+                    <Button type="text" className="icon_btn aprove_icon" icon={<EyeOutlined />} onClick={() => handleView(item)} />
+                    <Button type="text" className="icon_btn delete_icon" icon={<DeleteOutlined />} onClick={() => handleDeteleUser(item)} />
                 </div>
             ),
             fixed: "right"
@@ -167,14 +164,20 @@ const CorporateReport = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
-                        Download PDF
-                    </Button>
-                    <Button type="default" onClick={exportToExcel}>
-                        Download Excel
-                    </Button>
+                    <Button
+                        type="text"
+                        icon={<FilePdfOutlined style={{ color: "red" }} />}
+                        className="pdf_btn"
+                        onClick={exportToPDF}
+                        style={{ marginRight: "5px" }}
+                    >EXPORT PDF</Button>
+                    <Button
+                        type="text"
+                        icon={<FileExcelOutlined style={{ color: "green" }} />}
+                        className="excel_btn"
+                        onClick={exportToExcel}
+                    >EXPORT EXCEL</Button>
                 </div>
-
             </div>
             <Table
                 columns={columns}

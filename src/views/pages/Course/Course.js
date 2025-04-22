@@ -1,180 +1,262 @@
-import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions, Switch } from "antd";
-import { jsPDF } from "jspdf";
-import * as XLSX from "xlsx";
+import React, { useContext, useEffect, useState } from "react";
+import { Table, Button, Input, Image, Tag, Switch, Drawer } from "antd";
+import { useNavigate } from "react-router-dom";
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { ModalContext } from "../../../Context";
+import { handleCourseListApi } from "../../../utils/services";
+import AddCourseModal from "../../modals/AddCourseModal";
+import EditCourseModal from "../../modals/EditCourseModal";
+import DeleteCourseModal from "../../modals/DeleteCourseModal";
+import ViewCourseModal from "../../modals/ViewCourseModal";
 
-import { initialData } from "../../../_dummyData/userReport";
- import AddCourseModal from "../../modals/AddCourseModal";
- import EditCourseModal from "../../modals/EditCourseModal";
-
-
+const TAG_COLORS = ["green", "blue", "orange", "gold", "lime", "geekblue", "purple"];
 
 const Course = () => {
-    const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
-    const [filteredData, setFilteredData] = useState(initialData);
-    const modalContext = useContext(ModalContext);
+    const [filteredData, setFilteredData] = useState([]);
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
-    const { handleModalData } = modalContext;
-    const [isActive, setIsActive] = useState(true);
-    const [data, setData] = useState(initialData);
+    const [drawerVisible, setDrawerVisible] = useState(false);
+    const [currentCourse, setCurrentCourse] = useState(null);
 
-    const handleToggle = (key) => {
-        const updatedData = data.map((item) =>
-            item.key === key ? { ...item, isActive: !item.isActive } : item
-        );
-        setData(updatedData);
+    const { handleModalData } = useContext(ModalContext);
+    const navigate = useNavigate();
+
+    const fetchCourses = async () => {
+        const result = await handleCourseListApi();
+        setFilteredData(result?.res?.results || []);
     };
 
+    useEffect(() => {
+        fetchCourses();
+    }, []);
 
-    const handleDelete = (data) => {
-        const addCollateral = "Hello"
-        handleModalData(addCollateral, "md")
-
-    }
-  
-    const handleEdit = (course) => {
-        setSelectedCourse(course);
-        setIsEditModalVisible(true);
-    };
-
-    const handleAdd = () => {
-        setIsAddModalVisible(true);
-    };
-    
-    
-
-
-    const handleChange = (pagination, filters, sorter) => {
-        setSortedInfo(sorter);
+    const handleDelete = (course) => {
+        const modal = <DeleteCourseModal data={course} handleCourseList={fetchCourses} />;
+        handleModalData(modal, "sm");
     };
 
     const handleSearch = () => {
-        const filtered = initialData.filter((item) =>
-            Object.values(item).some((value) =>
-                value.toString().toLowerCase().includes(searchText.toLowerCase())
+        if (!searchText) return fetchCourses();
+        const filtered = filteredData.filter((item) =>
+            Object.values(item).some((val) =>
+                String(val).toLowerCase().includes(searchText.toLowerCase())
             )
         );
         setFilteredData(filtered);
     };
 
-    const exportToPDF = () => {
-        const doc = new jsPDF();
-        let y = 10;
-        doc.text("Fancy Table Data", 10, y);
-        y += 10;
-        filteredData.forEach((item) => {
-            doc.text(`${item.name}, ${item.age}, ${item.address}`, 10, y);
-            y += 10;
-        });
-        doc.save("table_data.pdf");
+    const renderActionButton = (label, color, onClick) => (
+        <Button
+           type="primary"
+            onClick={onClick}
+        >
+            {label}
+        </Button>
+    );
+
+    const handleView = (course) => {
+        const modal = <ViewCourseModal course={course} />;
+        handleModalData(modal, "lg");
     };
 
-    const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(filteredData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, "table_data.xlsx");
+    const showDrawer = (course) => {
+        setCurrentCourse(course);
+        setDrawerVisible(true);
+    };
+
+    const closeDrawer = () => {
+        setDrawerVisible(false);
+        setCurrentCourse(null);
     };
 
     const columns = [
-        { title: "ID", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Course Name", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Instructor", dataIndex: "email", key: "email", width: 150 },
-        { title: "Category", dataIndex: "ph_number", key: "ph_number", width: 150 },
-        { title: "Sub Category", dataIndex: "address", key: "address", width: 150 },
-        { title: "Create Date", dataIndex: "city", key: "city", width: 150 },
-        { title: "Update Date", dataIndex: "state", key: "state", width: 150 },
-        { title: "Badge", dataIndex: "country", key: "country", width: 150 },
-        { title: "Price", dataIndex: "pincode", key: "pincode", width: 150 },
-        { title: "Plan", dataIndex: "last_Login", key: "last_Login", width: 150 },
-        { title: "Status", dataIndex: "isActive", key: "isActive", width: 150 },
-        { title: "Active",
-                 key: "active",
-                 width: 150 ,
-                 render:()=>(
-                   <>
-                    <div className="switch_item">
-                       <Switch defaultChecked  />
-                    </div>
-                
-                   </>
-                 ),
-       
-               
-               },
-       
-
+        {
+            title: "Image",
+            dataIndex: "image",
+            key: "image",
+            render: (src) => (
+                <Image
+                    src={src}
+                    alt="Course"
+                    width={80}
+                    height={50}
+                    style={{ objectFit: "cover", borderRadius: 8 }}
+                />
+            ),
+        },
+        { title: "Course Name", dataIndex: "name", key: "name", width: 100 },
+        {
+            title: "Course Price",
+            key: "price",
+            width: 150,
+            render: (item) => <>₹ {item.price}</>,
+        },
+        {
+            title: "Tags",
+            key: "tags",
+            width: 150,
+            render: (item) => (
+                <>
+                    {item?.tags?.map((tag, index) => (
+                        <Tag
+                            color={TAG_COLORS[index % TAG_COLORS.length]}
+                            key={index}
+                            style={{ marginBottom: "4px" }}
+                        >
+                            {tag}
+                        </Tag>
+                    ))}
+                </>
+            ),
+        },
+        {
+            title: "Active",
+            key: "active",
+            width: 150,
+            render: () => (
+                <div className="switch_item">
+                    <Switch defaultChecked />
+                </div>
+            ),
+        },
         {
             title: "Actions",
             key: "actions",
+            fixed: "right",
             render: (item) => (
-                <div className="action-buttons">
-                
-                    <Button type="dashed" className="edit-btn" onClick={() => handleEdit(item)}>
-                        Edit
-                    </Button>
-                    <Button type="dashed" className="edit-btn">
-                        Delete
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Approve
-                    </Button>
-                    <Button type="danger" className="delete-btn">
-                        Reject
-                    </Button>
-                
-                </div>
-            ),
-            fixed: "right"
+                  <div className="action-buttons">
+                    <Button type="primary" onClick={() => showDrawer(item)} icon={<PlusCircleOutlined />} />
+                   <Button
+                      type="text"
+                      icon={<EyeOutlined style={{ color: "white" }} />}
+                      onClick={() => {
+                        handleView(item);
+                      }}
+                      className="icon_btn edit_icon"
+                   />
+                   <Button
+                      type="text"
+                      icon={<EditOutlined style={{ color: "white" }} />}
+                      onClick={() => {
+                        navigate(`/edit-course/${item.id}`);
+                      
+                    }}
+                      className="icon_btn edit_icon"
+                   />
 
+                  <Button
+                      type="text"
+                      icon={<DeleteOutlined />}
+                      onClick={() => {
+                        handleDelete(item);
+                    
+                    }}
+                      className="icon_btn delete_icon"
+                  />
+              </div>
+            ),
         },
     ];
 
-
     return (
         <div className="fancy-table-container">
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px" }}>
-                <Input
-                    placeholder="Search in all fields"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
-                />
-                <Button type="primary" onClick={handleSearch}>
-                    Search
-                </Button>
-                <Button type="default" onClick={exportToPDF}>
-                    Download PDF
-                </Button>
-                <Button type="default" onClick={exportToExcel}>
-                    Download Excel
-                </Button>
-                <Button type="default" onClick={handleAdd}>
+            <div
+                style={{
+                    marginBottom: 16,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: "8px",
+                    flexWrap: "wrap",
+                }}
+            >
+                <div className="table_search" style={{ display: "flex", gap: 8 }}>
+                    <Input
+                        placeholder="Search in all fields"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onPressEnter={handleSearch}
+                    />
+                    <Button type="primary" onClick={handleSearch}>
+                        Search
+                    </Button>
+                </div>
+                <Button type="default" onClick={() => navigate("/create-course")}>
                     Create Course
                 </Button>
             </div>
+
             <Table
                 columns={columns}
                 dataSource={filteredData}
-                onChange={handleChange}
                 className="fancy-table"
-                scroll={{ x: 'max-content', y: 500 }}
+                scroll={{ x: "max-content", y: 500 }}
+                rowKey="id"
             />
-            <AddCourseModal visible={isAddModalVisible} onCancel={() => setIsAddModalVisible(false)} />
-            <EditCourseModal visible={isEditModalVisible} selectedCourse={selectedCourse} onCancel={() => setIsEditModalVisible(false)} />
+
+            {/* Drawer for actions */}
+            <Drawer
+                title={currentCourse?.name || "Course Actions"}
+                placement="right"
+                onClose={closeDrawer}
+                open={drawerVisible}
+                width={350}
+            >
+                {currentCourse && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                        {renderActionButton("Assign Chapter", {
+                            bg: "#f0f4ff",
+                            text: "#1e40af",
+                            border: "#d0dbff",
+                        }, () => {
+                            // navigate(`/assign-chapter/${currentCourse.id}`);
+                            navigate(`/chapter-transfer`);
+                            closeDrawer();
+                        })}
+
+                        {renderActionButton("Assign Preview Videos", {
+                            bg: "#fff0f6",
+                            text: "#c41d7f",
+                            border: "#f5c2d5",
+                        }, () => {
+                            navigate(`/assign-preview-video/${currentCourse.id}`);
+                            closeDrawer();
+                        })}
+                         {renderActionButton("Assign Instructor", {
+                            bg: "#fff0f6",
+                            text: "#c41d7f",
+                            border: "#f5c2d5",
+                        }, () => {
+                            // navigate(`/assign-preview-video/${currentCourse.id}`);
+                            closeDrawer();
+                        })}
+                        {renderActionButton("Assign Related Course", {
+                            bg: "#fff0f6",
+                            text: "#c41d7f",
+                            border: "#f5c2d5",
+                        }, () => {
+                            navigate(`/assign-related-course/${currentCourse.id}`);
+                            closeDrawer();
+                        })}
+
+                    
+                    </div>
+                )}
+            </Drawer>
+
+            {/* Modals */}
+            <AddCourseModal
+                visible={isAddModalVisible}
+                onCancel={() => setIsAddModalVisible(false)}
+            />
+            <EditCourseModal
+                visible={isEditModalVisible}
+                selectedCourse={selectedCourse}
+                onCancel={() => setIsEditModalVisible(false)}
+            />
         </div>
     );
 };
 
 export default Course;
-
-
-
-
-
-
-

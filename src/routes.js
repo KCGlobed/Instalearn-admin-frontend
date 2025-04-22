@@ -33,6 +33,14 @@ const Event =React.lazy(() => import('./views/pages/Event/index'))
 const ManagePermissions =React.lazy(() => import('./views/pages/ManageStaff/ManagePermission'))
 const MyProfile =React.lazy(() => import('./views/pages/Profile/index'))
 const Chapter =React.lazy(() => import('./views/pages/Course/Chapter'))
+const CourseForm =React.lazy(() => import('./views/pages/Course/StepperCourseForm'))
+const EditCourseForm =React.lazy(() => import('./views/pages/Course/EditCourseForm'))
+const AssignChapter =React.lazy(() => import('./views/pages/Course/AssignChapter'))
+const AssignTopic = React.lazy(() => import('./views/pages/Course/AssignTopic'))
+const AssignPrevVideo = React.lazy(() => import('./views/pages/Course/AssignVideo'))
+const AssignRelatedCourse = React.lazy(() => import('./views/pages/Course/AssignRelatedCourse'))
+const ChapterTransfer = React.lazy(() => import('./views/pages/Course/ChapterTransfer'))
+const ManageInstructor = React.lazy(() => import('./views/pages/ManageInstructor/index'))
 
 
 
@@ -65,7 +73,15 @@ const routes = [
   { path: '/event', name: 'Subscribe User', element: <PrivateRoute element={<Event />} /> },
   { path: '/staff/manage-permission/:id', name: 'Subscribe User', element: <PrivateRoute element={<ManagePermissions />} /> },
   { path: '/my-profile', name: 'My Profile', element: <PrivateRoute element={<MyProfile />} /> },
-  { path: '/chapters', name: 'My Profile', element: <PrivateRoute element={<Chapter />} /> },
+  { path: '/chapters', name: 'Chapter', element: <PrivateRoute element={<Chapter />} /> },
+  { path: '/create-course', name: 'Create Course', element: <PrivateRoute element={<CourseForm />} /> },
+  { path: '/assign-chapter/:id', name: 'Assign Chapter', element: <PrivateRoute element={<AssignChapter />} /> },
+  { path: '/assign-topic/:id', name: 'Assign Topic', element: <PrivateRoute element={<AssignTopic />} /> },
+  { path: '/assign-preview-video/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<AssignPrevVideo />} /> },
+  { path: '/edit-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<EditCourseForm />} /> },
+  { path: '/assign-related-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<AssignRelatedCourse />} /> },
+  { path: '/chapter-transfer', name: 'Assign Preview Video', element: <PrivateRoute element={<ChapterTransfer />} /> },
+  { path: '/manageinstructor', name: 'Manage Instructor', element: <PrivateRoute element={<ManageInstructor />} /> },
 ];
 
 

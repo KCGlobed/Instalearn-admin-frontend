@@ -4,10 +4,8 @@ import toast from "react-hot-toast";
 import { handleUpdateStaffApi } from "../../utils/services";
 
 const EditStaffModal = ({ visible, onCancel, fetchStaffList, selectedStaff }) => {
-    const [form] = Form.useForm();
+    const [form] = Form.useForm(); // ✅ Removed optional chaining
     const [loading, setLoading] = useState(false);
-
-
 
     const handleSubmit = async (values) => {
         setLoading(true);
@@ -25,13 +23,13 @@ const EditStaffModal = ({ visible, onCancel, fetchStaffList, selectedStaff }) =>
         }
     };
 
-        // Pre-fill form when editing data
+    // Pre-fill form when editing data
     useEffect(() => {
-          if (selectedStaff) {
-              form.setFieldsValue(selectedStaff);
-          } else {
-              form.resetFields();
-          }
+        if (selectedStaff) {
+            form.setFieldsValue(selectedStaff);
+        } else {
+            form.resetFields();
+        }
     }, [selectedStaff, form]);
 
     return (
@@ -45,14 +43,20 @@ const EditStaffModal = ({ visible, onCancel, fetchStaffList, selectedStaff }) =>
             footer={null}
             width={600}
             centered
+            destroyOnClose
         >
-            <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleSubmit}
+                initialValues={selectedStaff || {}}
+            >
                 <Form.Item
                     label="First Name"
                     name="first_name"
                     rules={[{ required: true, message: "First name is required" }]}
                 >
-                    <Input placeholder="Enter first name" disabled={loading} />
+                    <Input placeholder="Enter first name" disabled={loading} autoFocus />
                 </Form.Item>
 
                 <Form.Item
@@ -63,7 +67,12 @@ const EditStaffModal = ({ visible, onCancel, fetchStaffList, selectedStaff }) =>
                     <Input placeholder="Enter last name" disabled={loading} />
                 </Form.Item>
 
-                <Button type="primary" htmlType="submit" block disabled={loading}>
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    block
+                    disabled={loading}
+                >
                     {loading ? <Spin size="small" /> : "Update"}
                 </Button>
             </Form>

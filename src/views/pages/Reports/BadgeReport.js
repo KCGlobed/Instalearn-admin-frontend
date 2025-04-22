@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
 
-import { EyeOutlined, CheckCircleOutlined, ShareAltOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { badgeReport } from "../../../_dummyData/badgeData";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 
@@ -156,13 +156,20 @@ const BadgeReport = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" onClick={exportToPDF} style={{ marginRight: "5px" }}>
-                        Download PDF
-                    </Button>
-                    <Button type="default" onClick={exportToExcel}>
-                        Download Excel
-                    </Button>
-                </div>
+                   <Button
+                       type="text"
+                       icon={<FilePdfOutlined style={{ color: "red" }} />}
+                       className="pdf_btn"
+                       onClick={exportToPDF}
+                       style={{ marginRight: "5px" }}
+                   >EXPORT PDF</Button>
+                   <Button
+                       type="text"
+                       icon={<FileExcelOutlined style={{ color: "green" }} />}
+                       className="excel_btn"
+                       onClick={exportToExcel}
+                   >EXPORT EXCEL</Button>
+               </div> 
 
             </div>
             <Table

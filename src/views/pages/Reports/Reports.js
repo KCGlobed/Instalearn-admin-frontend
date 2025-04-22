@@ -56,12 +56,12 @@ const Tableview = () => {
       <CTabs activeItemKey="home">
         <CTabList variant="tabs">
           {
-            tabsData && tabsData?.map((item) => <CTab itemKey={item.itemKey}>{item.itemName}</CTab>)
+            tabsData && tabsData?.map((item) => <CTab  key={item.id} itemKey={item.itemKey}>{item.itemName}</CTab>)
           }
         </CTabList>
         <CTabContent>
           {
-            tabsData && tabsData?.map((item) => <CTabPanel className="p-3" itemKey={item.itemKey}>{item.component}</CTabPanel>)
+            tabsData && tabsData?.map((item) => <CTabPanel key={item.id} className="p-3" itemKey={item.itemKey}>{item.component}</CTabPanel>)
           }
         </CTabContent>
       </CTabs>

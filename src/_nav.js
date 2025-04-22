@@ -27,6 +27,7 @@ import {
   cilVideo,
   cilCalendar,
   cilUser,
+  cilEducation,
   
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
@@ -109,13 +110,17 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Manage Instructors',
+    to: '/manageinstructor',
+    icon: <CIcon icon={cilEducation} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Manage Staff',
     to: '/managestaff',
     icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   
   },
-
-
   {
     component: CNavGroup,
     name: 'Institutes',
@@ -181,7 +186,6 @@ const _nav = [
     name: 'Subscribe Users',
     to: '/subscribe-users',
     icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
-   
   },
   {
     component: CNavItem,
@@ -224,8 +228,7 @@ const _nav = [
     to: '/my-profile',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
-  
-  
+
   
 ]
 

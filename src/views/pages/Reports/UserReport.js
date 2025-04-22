@@ -1,113 +1,151 @@
-import React, { useContext, useState } from "react";
-import { Table, Button, Input, Descriptions, Drawer, Checkbox } from "antd";
+import React, { useContext, useEffect, useState } from "react";
+import {
+    Table,
+    Button,
+    Input,
+    Descriptions,
+    Drawer,
+    Checkbox,
+    Spin,
+} from "antd";
 import { jsPDF } from "jspdf";
 import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
-import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
-import { handleDownloadExcelUserApi, handleDownloadPdfUserApi } from "../../../utils/services";
-import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleFilled, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
+import {
+    handleDownloadExcelUserApi,
+    handleDownloadPdfUserApi,
+    handleUserListApi,
+} from "../../../utils/services";
+import {
+    EditOutlined,
+    DeleteOutlined,
+    EyeOutlined,
+    FileExcelOutlined,
+    FilePdfOutlined,
+} from "@ant-design/icons";
+import moment from "moment/moment";
 
 const UserReport = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
-    const [filteredData, setFilteredData] = useState(initialData);
+    const [filteredData, setFilteredData] = useState([]);
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const [loading, setLoading] = useState(false); // <-- loader state
+
     const [columnsConfig, setColumnsConfig] = useState({
-        name: false,
-        age: true,
+        first_name: true,
+        last_name: true,
         email: true,
-        ph_number: true,
+        phone1: true,
+        is_active: true,
+        date_joined: true,
+        email_verified: true,
         address: true,
         city: true,
         state: true,
         country: true,
         pincode: true,
-        last_Login: true,
-        isActive: true,
-        permission: true,
-        courses: true,
-        wishlist: true,
-        mygoals: true,
-        review: true,
-        total_watch_time: true,
-        certificates_earned: true,
-        enrolled_date: true,
-        subscription_type: true,
-        last_course_activity: true,
-        actions: true
+        social_id: false,
+        social_type: false,
+        actions: true,
     });
 
     const modalContext = useContext(ModalContext);
     const { handleModalData } = modalContext;
 
-
     const handleView = (selectedUser) => {
-        console.log(selectedUser)
-        const addCollateral = <ViewUserReportModal selectedUser={selectedUser} />
-        handleModalData(addCollateral, "lg")
-    }
+        const modalContent = <ViewUserReportModal selectedUser={selectedUser} />;
+        handleModalData(modalContent, "lg");
+    };
 
-    const handleDeteleUser = (item) => {
-        const userReportDelete = <DeleteUserReportModal />
-        handleModalData(userReportDelete, "md")
-    }
+    const handleDeleteUser = (item) => {
+        const modalContent = <DeleteUserReportModal />;
+        handleModalData(modalContent, "md");
+    };
 
     const handleChange = (pagination, filters, sorter) => {
         setSortedInfo(sorter);
     };
 
     const handleSearch = () => {
-        const filtered = initialData.filter((item) =>
+        const filtered = filteredData.filter((item) =>
             Object.values(item).some((value) =>
-                value.toString().toLowerCase().includes(searchText.toLowerCase())
+                value?.toString().toLowerCase().includes(searchText.toLowerCase())
             )
         );
         setFilteredData(filtered);
     };
 
     const exportToPDF = async () => {
-        let result = await handleDownloadPdfUserApi()
+        let result = await handleDownloadPdfUserApi();
         const pdfUrl = result.res.data;
         window.open(pdfUrl, "_blank");
     };
 
     const exportToExcel = async () => {
-        let result = await handleDownloadExcelUserApi()
+        let result = await handleDownloadExcelUserApi();
         const csvUrl = result.res.data;
         const link = document.createElement("a");
         link.href = csvUrl;
-        link.download = "student_report.csv";
+        link.download = "user_report.csv";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
 
     const allColumns = [
-        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), width: 150 },
-        { title: "Age", dataIndex: "age", key: "age", width: 100, sorter: (a, b) => a.age - b.age },
-        { title: "Email", dataIndex: "email", key: "email", width: 150, sorter: (a, b) => a.email.localeCompare(b.email) },
-        { title: "Phone Number", dataIndex: "ph_number", key: "ph_number", width: 150, sorter: (a, b) => a.ph_number - b.ph_number },
-        { title: "Address", dataIndex: "address", key: "address", width: 150, sorter: (a, b) => a.address.localeCompare(b.address) },
-        { title: "City", dataIndex: "city", key: "city", width: 150, sorter: (a, b) => a.city.localeCompare(b.city) },
-        { title: "State", dataIndex: "state", key: "state", width: 150, sorter: (a, b) => a.state.localeCompare(b.state) },
-        { title: "Country", dataIndex: "country", key: "country", width: 150, sorter: (a, b) => a.country.localeCompare(b.country) },
-        { title: "Pincode", dataIndex: "pincode", key: "pincode", width: 150, sorter: (a, b) => a.pincode - b.pincode },
-        { title: "Last Login", dataIndex: "last_Login", key: "last_Login", width: 150 },
-        { title: "Active", dataIndex: "isActive", key: "isActive", width: 150, sorter: (a, b) => a.isActive.localeCompare(b.isActive) },
-        { title: "Permission", dataIndex: "permission", key: "permission", width: 150, sorter: (a, b) => a.permission.localeCompare(b.permission) },
-        { title: "Courses", dataIndex: "courses", width: 150, key: "courses", render: (courses) => courses.map(c => `${c.course_name} (${c.progress}%)`).join(", ") },
-        { title: "Wishlist", dataIndex: "wishlist", width: 150, key: "wishlist", render: (wishlist) => wishlist.join(", ") },
-        { title: "Goals", dataIndex: "mygoals", key: "mygoals", width: 150 },
-        { title: "Reviews", dataIndex: "review", key: "review", render: (reviews) => reviews.length ? reviews.map(r => `${r.course_id}: ${r.rating}⭐`).join(", ") : "No Reviews" },
-        ,
-        { title: "Total Watch Time", dataIndex: "total_watch_time", key: "total_watch_time", width: 150, sorter: (a, b) => a.total_watch_time - b.total_watch_time },
-        { title: "Certificates Earned", dataIndex: "certificates_earned", key: "certificates_earned", width: 150, sorter: (a, b) => a.certificates_earned - b.certificates_earned },
-        { title: "Enrolled Date", dataIndex: "enrolled_date", key: "enrolled_date", width: 150 },
-        { title: "Subscription Type", dataIndex: "subscription_type", key: "subscription_type", width: 150, sorter: (a, b) => a.subscription_type.localeCompare(b.subscription_type) },
-        { title: "Last Course Activity", dataIndex: "last_course_activity", key: "last_course_activity", width: 150 },
-
+        {
+            title: "First Name",
+            dataIndex: "first_name",
+            key: "first_name",
+            sorter: (a, b) => a.first_name.localeCompare(b.first_name),
+            width: 150,
+        },
+        {
+            title: "Last Name",
+            dataIndex: "last_name",
+            key: "last_name",
+            sorter: (a, b) => a.last_name.localeCompare(b.last_name),
+            width: 150,
+        },
+        {
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
+            sorter: (a, b) => a.email.localeCompare(b.email),
+            width: 150,
+        },
+        { title: "Phone", dataIndex: "phone1", key: "phone1", width: 150 },
+        {
+            title: "Active",
+            dataIndex: "is_active",
+            key: "is_active",
+            render: (isActive) => (isActive ? "Yes" : "No"),
+            width: 150,
+        },
+        {
+            title: "Date Joined",
+            dataIndex: "date_joined",
+            key: "date_joined",
+            render: (utcTime) =>
+                `${moment.utc(utcTime).local().format("YYYY-MM-DD")}`,
+        },
+        {
+            title: "Email Verified",
+            dataIndex: "email_verified",
+            key: "email_verified",
+            render: (emailVerified) => (emailVerified ? "Yes" : "No"),
+            width: 150,
+        },
+        { title: "Address", dataIndex: "address", key: "address", width: 150 },
+        { title: "City", dataIndex: "city", key: "city", width: 150 },
+        { title: "State", dataIndex: "state", key: "state", width: 150 },
+        { title: "Country", dataIndex: "country", key: "country", width: 150 },
+        { title: "Pincode", dataIndex: "pincode", key: "pincode", width: 150 },
+        { title: "Social ID", dataIndex: "social_id", key: "social_id", width: 150 },
+        { title: "Social Type", dataIndex: "social_type", key: "social_type", width: 150 },
         {
             title: "Actions",
             key: "actions",
@@ -115,68 +153,100 @@ const UserReport = () => {
                 <div className="action-buttons">
                     <Button
                         type="text"
-                        icon={<EyeOutlined style={{ color: "white" }} />}
                         className="icon_btn aprove_icon"
+                        icon={<EyeOutlined />}
                         onClick={() => handleView(item)}
                     />
                     <Button
                         type="text"
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDeteleUser(item)}
                         className="icon_btn delete_icon"
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDeleteUser(item)}
                     />
                 </div>
             ),
-            fixed: "right"
-
         },
     ];
 
-    const columns = allColumns.filter(col => columnsConfig[col.key]);
+    const columns = allColumns.filter((col) => columnsConfig[col.key]);
+
+    const handleUserList = async () => {
+        setLoading(true); // Start loading
+        try {
+            let response = await handleUserListApi();
+            setFilteredData(response?.res?.results || []);
+        } catch (error) {
+            console.error("Error fetching user list", error);
+        } finally {
+            setLoading(false); // End loading
+        }
+    };
+
+    useEffect(() => {
+        handleUserList();
+    }, []);
 
     return (
-        <div className="fancy-table-container" style={{animation: "fadeIn 1s ease-in-out" }}>
-            <div style={{ marginBottom: 16, display: "flex", gap: "8px", justifyContent: "space-between" }}>
-                <div className="table_search" >
+        <div
+            className="fancy-table-container"
+            style={{ animation: "fadeIn 1s ease-in-out" }}
+        >
+            <div
+                style={{
+                    marginBottom: 16,
+                    display: "flex",
+                    gap: "8px",
+                    justifyContent: "space-between",
+                }}
+            >
+                <div className="table_search">
                     <Input
                         placeholder="Search in all fields"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         onPressEnter={handleSearch}
                     />
-                    <Button type="primary" onClick={handleSearch} >
+                    <Button type="primary" onClick={handleSearch}>
                         Search
                     </Button>
-                    <Button type="primary" className="ms-2" onClick={() => setDrawerVisible(true)} >
+                    <Button
+                        type="primary"
+                        className="ms-2"
+                        onClick={() => setDrawerVisible(true)}
+                    >
                         Select Columns
                     </Button>
                 </div>
                 <div>
-                   
                     <Button
                         type="text"
                         icon={<FilePdfOutlined style={{ color: "red" }} />}
                         className="pdf_btn"
                         onClick={exportToPDF}
                         style={{ marginRight: "5px" }}
-                    >Pdf</Button>
+                    >
+                        EXPORT PDF
+                    </Button>
                     <Button
                         type="text"
                         icon={<FileExcelOutlined style={{ color: "green" }} />}
                         className="excel_btn"
                         onClick={exportToExcel}
-                    >Excel</Button>
+                    >
+                        EXPORT EXCEL
+                    </Button>
                 </div>
-
             </div>
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                onChange={handleChange}
-                className="fancy-table"
-                scroll={{ x: 'max-content', y: 500 }}
-            />
 
+            <Spin spinning={loading} tip="Loading...">
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    onChange={handleChange}
+                    className="fancy-table"
+                    scroll={{ x: "max-content", y: 500 }}
+                />
+            </Spin>
 
             <Drawer
                 title="Select Table Columns"
@@ -187,12 +257,15 @@ const UserReport = () => {
             >
                 <h3>Manage Columns</h3>
                 <div className="manage_column">
-                    {allColumns.map(col => (
+                    {allColumns.map((col) => (
                         <div key={col.key} style={{ marginBottom: 10 }}>
                             <Checkbox
                                 checked={columnsConfig[col.key]}
                                 onChange={(e) => {
-                                    setColumnsConfig({ ...columnsConfig, [col.key]: e.target.checked });
+                                    setColumnsConfig({
+                                        ...columnsConfig,
+                                        [col.key]: e.target.checked,
+                                    });
                                 }}
                             >
                                 {col.title}
@@ -204,8 +277,6 @@ const UserReport = () => {
                     Apply
                 </Button>
             </Drawer>
-
-
         </div>
     );
 };

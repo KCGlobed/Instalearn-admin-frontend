@@ -49,6 +49,7 @@ const App = () => {
     setIsModalOpen(false);
   };
   window.global = window;
+
   return (
     <ModalContext.Provider
       value={{
