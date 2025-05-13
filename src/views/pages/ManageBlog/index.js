@@ -4,7 +4,7 @@ import { jsPDF } from "jspdf";
 import * as XLSX from "xlsx";
 import { ModalContext } from "../../../Context";
 import ViewUserReportModal from "../../modals/ViewUserReportModal";
-import { initialData } from "../../../_dummyData/userReport";
+// import { initialData } from "../../../_dummyData/userReport";
 import DeleteUserReportModal from "../../modals/DeleteUserReportModal";
 import CreateBlogModal from "../../modals/CreateBlogModal";
 import EditBlogModal from "../../modals/EditBlogModal";
@@ -15,7 +15,7 @@ import EditBlogModal from "../../modals/EditBlogModal";
 const ManageBlog = () => {
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState("");
-    const [filteredData, setFilteredData] = useState(initialData);
+    const [filteredData, setFilteredData] = useState([]);
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [columnsConfig, setColumnsConfig] = useState({
         name: true,

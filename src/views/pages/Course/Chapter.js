@@ -148,7 +148,7 @@ const Chapter = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" style={{ marginRight: "5px" }} onClick={() => handleCreate()}>
+                    <Button type="default"  className="create_btn" style={{ marginRight: "5px" }} onClick={() => handleCreate()}>
                         Create Chapter
                     </Button>
                 </div>

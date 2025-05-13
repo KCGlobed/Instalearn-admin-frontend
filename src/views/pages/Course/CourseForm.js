@@ -22,7 +22,7 @@ import DraftEditorFormItem from "../../../components/QuillEditorFormItem";
 const { TextArea } = Input;
 const { Title } = Typography;
 
-const CourseForm = ({onSave,initialData }) => {
+const CourseForm = ({ onSave, initialData }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -51,7 +51,7 @@ const CourseForm = ({onSave,initialData }) => {
     fetchCategories();
   }, []);
 
-  
+
 
   return (
     <div className="course-form-wrapper mb-4">
@@ -100,7 +100,20 @@ const CourseForm = ({onSave,initialData }) => {
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
-            <Form.Item label="Discounted Price" name="discounted_price" rules={[{ required: true }]}>
+            <Form.Item label="Discounted Price" name="discounted_price" rules={[
+              { required: true, message: "Discounted price is required" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  const price = getFieldValue('price');
+                  if (value === undefined || value === null || value < price) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Discounted price must be less than the original price")
+                  );
+                },
+              }),
+            ]}>
               <InputNumber min={0} style={{ width: "100%" }} />
             </Form.Item>
           </Col>
@@ -132,7 +145,7 @@ const CourseForm = ({onSave,initialData }) => {
             </Form.Item>
           </Col>
           <Col xs={24}>
-            <Form.Item label="Description" 
+            <Form.Item label="Description"
               name="description"
               rules={[{ required: true, message: "description is required" }]}
               getValueFromEvent={(content) => content}>
@@ -141,18 +154,18 @@ const CourseForm = ({onSave,initialData }) => {
           </Col>
           <Col xs={24}>
             <Form.Item label="Requirement" name="requirement"
-               rules={[{ required: true, message: "Requirement is required" }]}
-               getValueFromEvent={(content) => content}
-             >
-            
-               <DraftEditorFormItem />
+              rules={[{ required: true, message: "Requirement is required" }]}
+              getValueFromEvent={(content) => content}
+            >
+
+              <DraftEditorFormItem />
             </Form.Item>
           </Col>
         </Row>
 
         <Row gutter={[24, 16]}>
           <Col xs={24} md={12}>
-            <Form.Item label="Course Image" name="image" valuePropName="file"  rules={[{ required: true, message: "Image is required" }]}>
+            <Form.Item label="Course Image" name="image" valuePropName="file" rules={[{ required: true, message: "Image is required" }]}>
               <Upload name="image" listType="picture" maxCount={1} beforeUpload={() => false}>
                 <Button icon={<UploadOutlined />}>Upload Image</Button>
               </Upload>
@@ -230,11 +243,11 @@ const CourseForm = ({onSave,initialData }) => {
         <Divider />
         <Form.Item>
           <div className="form-action-buttons">
-          
+
             <Button type="primary" htmlType="submit" size="large" block loading={loading}>
               Next
             </Button>
-          </div> 
+          </div>
         </Form.Item>
       </Form>
     </div>

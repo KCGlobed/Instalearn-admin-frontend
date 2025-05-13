@@ -1,11 +1,8 @@
 
-
-
-
-
 import React from 'react';
 import PrivateRoute from './components/PrivateRoute'; // Import Private Route
 import ManageBlog from './views/pages/ManageBlog';
+import EditStudentPlan from './views/pages/ManageSubscription/StudentSubsciptionPlan/EditStudentPlan';
 
 const Dashboard = React.lazy(() => import('./views/pages/Dashboard/Dashboard'));
 const Reports = React.lazy(() => import('./views/pages/Reports/Reports'));
@@ -41,6 +38,22 @@ const AssignPrevVideo = React.lazy(() => import('./views/pages/Course/AssignVide
 const AssignRelatedCourse = React.lazy(() => import('./views/pages/Course/AssignRelatedCourse'))
 const ChapterTransfer = React.lazy(() => import('./views/pages/Course/ChapterTransfer'))
 const ManageInstructor = React.lazy(() => import('./views/pages/ManageInstructor/index'))
+const UpdatePublicProfile = React.lazy(() => import('./views/pages/ManageInstructor/UpdatePrublicProfile'))
+const ManageCourseReview = React.lazy(() => import('./views/pages/ManageCourseReview/index'))
+const EditCourseTab = React.lazy(() => import('./views/pages/Course/EditCourseTab'))
+const PermissionRoles = React.lazy(() => import('./views/pages/ManagePermissions/PermissionRoles'))
+const ManagePeople = React.lazy(() => import('./views/pages/ManagePeople/index'))
+const AssignInstructor = React.lazy(() => import('./views/pages/Course/AssignInstructor'))
+const AssignFaqCourse = React.lazy(() => import('./views/pages/Course/FAQ/index'))
+const AddStudentPlan = React.lazy(() => import('./views/pages/ManageSubscription/StudentSubsciptionPlan/AddStudentPlan'))
+const ViewStudentPlan = React.lazy(() => import('./views/pages/ManageSubscription/StudentSubsciptionPlan/ViewStudetPlan'))
+const ViewCorporatePlan = React.lazy(() => import('./views/pages/ManageSubscription/CoprateSubsciptionPlan/ViewCopratePlan'))
+const AddCorporatePlan = React.lazy(() => import('./views/pages/ManageSubscription/CoprateSubsciptionPlan/CreateCorporateSubscription'))
+const UpdateCorporatePlan = React.lazy(() => import('./views/pages/ManageSubscription/CoprateSubsciptionPlan/UpdateCorporateSubscription'))
+const CreateUniversityPlan = React.lazy(() => import('./views/pages/ManageSubscription/UniversityPlan/AddUnviersityPlan'))
+const UpdateUniversityPlan = React.lazy(() => import('./views/pages/ManageSubscription/UniversityPlan/UpdateUniversityPlan'))
+const ViewUniversityPlan = React.lazy(() => import('./views/pages/ManageSubscription/UniversityPlan/ViewUniversityPlan'))
+const BlogCategory = React.lazy(() => import('./views/pages/ManageBlog/ManageBlogCategory/index'))
 
 
 
@@ -78,10 +91,27 @@ const routes = [
   { path: '/assign-chapter/:id', name: 'Assign Chapter', element: <PrivateRoute element={<AssignChapter />} /> },
   { path: '/assign-topic/:id', name: 'Assign Topic', element: <PrivateRoute element={<AssignTopic />} /> },
   { path: '/assign-preview-video/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<AssignPrevVideo />} /> },
-  { path: '/edit-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<EditCourseForm />} /> },
+  // { path: '/edit-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<EditCourseForm />} /> },
+  { path: '/edit-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<EditCourseTab />} /> },
   { path: '/assign-related-course/:id', name: 'Assign Preview Video', element: <PrivateRoute element={<AssignRelatedCourse />} /> },
   { path: '/chapter-transfer', name: 'Assign Preview Video', element: <PrivateRoute element={<ChapterTransfer />} /> },
   { path: '/manageinstructor', name: 'Manage Instructor', element: <PrivateRoute element={<ManageInstructor />} /> },
+  { path: '/update-public-profile/:id', name: 'Manage Instructor', element: <PrivateRoute element={<UpdatePublicProfile />} /> },
+  { path: '/manage-course-reviews', name: 'Manage Course Review', element: <PrivateRoute element={<ManageCourseReview />} /> },
+  { path: '/manage-permission/:id', name: 'Manage Permissions details', element: <PrivateRoute element={<PermissionRoles />} /> },
+  { path: '/managepeople', name: 'Manage People', element: <PrivateRoute element={<ManagePeople />} /> },
+  { path: '/assign-instructor/:id', name: 'Assign Instructor', element: <PrivateRoute element={<AssignInstructor />} /> },
+  { path: '/assign-faq/:id', name: 'Assign faq', element: <PrivateRoute element={<AssignFaqCourse />} /> },
+  { path: '/add-student-plan', name: 'Add student plan', element: <PrivateRoute element={<AddStudentPlan />} /> },
+  { path: '/update-student-plan/:id', name: 'Add student plan', element: <PrivateRoute element={<EditStudentPlan />} /> },
+  { path: '/view-student-plan/:id', name: 'view student plan', element: <PrivateRoute element={<ViewStudentPlan />} /> },
+  { path: '/view-corporate-plan/:id', name: 'view corporate plan', element: <PrivateRoute element={<ViewCorporatePlan />} /> },
+  { path: '/add-corporate-plan', name: 'add corporate plan', element: <PrivateRoute element={<AddCorporatePlan />} /> },
+  { path: '/edit-corporate-plan/:id', name: 'edit corporate plan', element: <PrivateRoute element={<UpdateCorporatePlan />} /> },
+  { path: '/add-university-plan', name: 'add university plan', element: <PrivateRoute element={<CreateUniversityPlan />} /> },
+  { path: '/update-university-plan/:id', name: 'add university plan', element: <PrivateRoute element={<UpdateUniversityPlan />} /> },
+  { path: '/view-university-plan/:id', name: 'add university plan', element: <PrivateRoute element={<ViewUniversityPlan />} /> },
+  { path: '/blog-category', name: 'blog category', element: <PrivateRoute element={<BlogCategory />} /> },
 ];
 
 

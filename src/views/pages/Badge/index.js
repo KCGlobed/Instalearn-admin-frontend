@@ -55,11 +55,12 @@ const Badge = () => {
     };
 
     const columns = [
-        { title: "ID", dataIndex: "id", key: "id", },
-        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name) },
+        { title: "ID", dataIndex: "id", key: "id", align: 'center', },
+        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => a.name.localeCompare(b.name), align: 'center',},
         {
             title: "Active",
             key: "active",
+            align: 'center',
 
             render: () => (
                 <>
@@ -137,7 +138,7 @@ const Badge = () => {
                 </div>
                 <div>
 
-                    <Button type="default" className="create_badgebtn" onClick={() => CreateBadgeModal()}>
+                    <Button type="default" className="create_badgebtn create_btn"  onClick={() => CreateBadgeModal()}>
                         Create Badge
                     </Button>
                 </div>

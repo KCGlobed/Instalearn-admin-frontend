@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Upload, Spin } from 'antd';
+import React, { useContext, useState } from 'react';
+import { Form, Input, InputNumber, Button, Upload, Spin } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
 import { handleAddPrevVideoApi } from '../../utils/services';
+import { ModalContext } from '../../Context';
 
-const AddPrevVideo = ({ courseId, handleVideoList, }) => {
+const AddPrevVideo = ({ courseId, handleVideoList }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+   const { closeModal } = useContext(ModalContext);
 
   const handleFinish = async (values) => {
     setLoading(true);
     const formData = new FormData();
+    formData.append('name', values.name);
     formData.append('duration', values.duration);
     formData.append('course_id', courseId);
     formData.append('videos', values.video);
@@ -21,6 +24,7 @@ const AddPrevVideo = ({ courseId, handleVideoList, }) => {
       handleVideoList(courseId);
       toast.success('Video uploaded successfully!');
       form.resetFields();
+      closeModal();
     } catch (err) {
       console.error(err);
       toast.error('Failed to upload video.');
@@ -41,11 +45,22 @@ const AddPrevVideo = ({ courseId, handleVideoList, }) => {
           autoComplete="off"
         >
           <Form.Item
-            label="Video Duration (e.g. 10:30)"
-            name="duration"
-            rules={[{ required: true, message: 'Please enter the video duration' }]}
+            label="Video Name"
+            name="name"
+            rules={[{ required: true, message: 'Please enter the video name' }]}
           >
-            <Input placeholder="hh:mm or mm:ss" />
+            <Input placeholder="Enter video name" />
+          </Form.Item>
+
+          <Form.Item
+            label="Video Duration (in minutes)"
+            name="duration"
+            rules={[
+              { required: true, message: 'Please enter the video duration' },
+              { type: 'number', min: 1, message: 'Duration must be a positive integer' }
+            ]}
+          >
+            <InputNumber placeholder="Duration in minutes" min={1} style={{ width: '100%' }} />
           </Form.Item>
 
           <Form.Item

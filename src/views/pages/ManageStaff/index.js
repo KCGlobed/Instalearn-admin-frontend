@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import ViewStaffModal from "../../modals/ViewStaffModal";
 import { useNavigate } from "react-router-dom";
 
+
+
 const ManageStaff = () => {
     const [searchText, setSearchText] = useState("");
     const [staffData, setStaffData] = useState([]);
@@ -29,14 +31,15 @@ const ManageStaff = () => {
         }
     };
     useEffect(() => {
-
         fetchStaffList();
     }, []);
 
     // Handle Toggle Active Status
     const handleToggleActive = useCallback(async (id, checked) => {
+        console.log("ID:", id);
+        console.log("Checked:", checked);
         try {
-            await handleActiveStaffApi({ status: checked ? "1" : "0" }, id);
+            await handleActiveStaffApi({ status: checked ? 1 : 0 }, id);
             setStaffData((prev) =>
                 prev.map((staff) =>
                     staff.id === id ? { ...staff, is_active: checked } : staff
@@ -62,8 +65,25 @@ const ManageStaff = () => {
         { title: "ID", dataIndex: "id", key: "id", sorter: (a, b) => a.id - b.id, width: 150 },
         { title: "First Name", dataIndex: "first_name", key: "first_name", sorter: (a, b) => a.first_name.localeCompare(b.first_name), width: 150 },
         { title: "Last Name", dataIndex: "last_name", key: "last_name", sorter: (a, b) => a.last_name.localeCompare(b.last_name), width: 150 },
+     
         { title: "Email", dataIndex: "email", key: "email", width: 150 },
         { title: "Phone No", dataIndex: "phone1", key: "phone1", width: 150 },
+        {
+            title: "Role",
+            key: "role",
+            render: (staff) => {
+                const role = staff?.role == 4 ? "Customer Support" :
+                    staff?.role == 5 ? "Sub admin" :
+                    staff?.role == 6? "Sales" :
+                    staff?.role == 7 ? "Marketing" :
+                    staff?.role == 8 ? "Content Manager" :
+                    staff?.role == 9 ? "Finance" : "N/A";
+             
+                return <span>{role}</span>;
+            },
+            
+            width: 150
+        },
         { title: "Active Status", key: "is_active", render: (staff) => (staff.is_active ? "Yes" : "No"), width: 150 },
         {
             title: "Active",
@@ -144,7 +164,7 @@ const ManageStaff = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" className="create_badgebtn" onClick={() => setIsAddModalVisible(true)}>
+                    <Button type="default" className="create_badgebtn create_btn" onClick={() => setIsAddModalVisible(true)}>
                         Create Staff
                     </Button>
                 </div>

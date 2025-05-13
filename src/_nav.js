@@ -103,23 +103,35 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Manage Course Reviews',
+    to: '/manage-course-reviews',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Manage Subscription',
     to: '/managesubscription',
     icon: <CIcon icon={cilCreditCard } customClassName="nav-icon" />,
    
   },
-  {
-    component: CNavItem,
-    name: 'Manage Instructors',
-    to: '/manageinstructor',
-    icon: <CIcon icon={cilEducation} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Manage Staff',
-    to: '/managestaff',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  // {
+  //   component: CNavItem,
+  //   name: 'Manage Instructors',
+  //   to: '/manageinstructor',
+  //   icon: <CIcon icon={cilEducation} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Manage Staff',
+  //   to: '/managestaff',
+  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   
+  // }, 
+  {
+    component: CNavItem,
+    name: 'Manage People',
+    to: '/managepeople',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
@@ -154,7 +166,7 @@ const _nav = [
 
   {
     component: CNavItem,
-    name: 'Manage Permissions',
+    name: 'Manage Roles',
     to: '/manage-permission',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
    
@@ -200,14 +212,24 @@ const _nav = [
     name: 'Manage News',
     to: '/news',
     icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
-   
   },
   {
-    component: CNavItem,
+    component: CNavGroup,
     name: 'Manage Blogs',
     to: '/manageblogs',
-    icon: <CIcon icon={cilPenAlt} customClassName="nav-icon" />,
-   
+    icon:<CIcon icon={cilPenAlt} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Blogs Category',
+        to: '/blog-category',
+      },
+      {
+        component: CNavItem,
+        name: 'Upload Blog ',
+        to: '/upload-blog',
+      }, 
+    ],
   },
   {
     component: CNavItem,

@@ -29,7 +29,7 @@ import DraftEditorEdit from "../../../components/DraftEditorEdit";
 const { TextArea } = Input;
 const { Title } = Typography;
 
-const CourseForm = () => {
+const EditCourseForm = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -83,9 +83,8 @@ const CourseForm = () => {
     const fetchCourseData = async () => {
       if (!id) return;
       try {
-        const response = await handleViewCourseApi(id); // You must implement this in services
+        const response = await handleViewCourseApi(id);  // You must implement this in services
         const data = response.res.data
-        console.log(data,"himashu")
 
         form.setFieldsValue({
           ...data,
@@ -327,4 +326,4 @@ const CourseForm = () => {
   );
 };
 
-export default CourseForm;
+export default EditCourseForm;

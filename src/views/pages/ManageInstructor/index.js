@@ -1,12 +1,13 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Table, Button, Input, Drawer, Checkbox, Switch } from "antd";
-import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, EyeOutlined, SettingOutlined } from "@ant-design/icons";
 import { ModalContext } from "../../../Context";
-import { handleActiveChapterApi, handleInstructorList } from "../../../utils/services";
+import { handleActiveChapterApi, handleActiveInstructorApi, handleInstructorList } from "../../../utils/services";
 import toast from "react-hot-toast";
 import InstructorDetailsModal from "../../modals/InstructorDetailsModal";
 import CreateInstructorModal from "../../modals/CreateInstructorModal";
 import UpdateInstractorDetails from "../../modals/UpdateInstractorDetails";
+import { useNavigate } from "react-router-dom";
 
 const ManageInstructor = () => {
     const [sortedInfo, setSortedInfo] = useState({});
@@ -23,10 +24,11 @@ const ManageInstructor = () => {
     });
 
     const { handleModalData } = useContext(ModalContext);
+    const nevigate = useNavigate();
 
     const handleToggleActive = useCallback(async (id, checked) => {
         try {
-            await handleActiveChapterApi({ status: checked ? "1" : "0" }, id);
+            await handleActiveInstructorApi({ status: checked ? 1 : 0 }, id);
             handleFetchInstructors();
             toast.success("Successfully updated!");
         } catch (error) {
@@ -57,6 +59,13 @@ const ManageInstructor = () => {
             key: "actions",
             render: (record) => (
                 <div className="action-buttons">
+                <Button
+                    type="text"
+                    icon={<SettingOutlined style={{ color: "white" }} />}
+                    className="icon_btn aprove_icon"
+                    onClick={() => nevigate(`/update-public-profile/${record.id}`)}
+                    
+                />
                 <Button
                     type="text"
                     icon={<EyeOutlined style={{ color: "white" }} />}
@@ -129,7 +138,7 @@ const ManageInstructor = () => {
                     </Button>
                 </div>
                 <div>
-                    <Button type="default" className="create_badgebtn" onClick={handleCreate} >
+                    <Button type="default" className="create_badgebtn create_btn" onClick={handleCreate} >
                         Create Instructor
                     </Button>
                 </div>

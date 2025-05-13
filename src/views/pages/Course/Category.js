@@ -214,7 +214,7 @@ const Category = () => {
                                style={{ marginRight: "9px" }}
                            >Excel</Button>
 
-       <Button type="default" className="create_badgebtn" onClick={handleAdd}  >
+       <Button type="default" className="create_badgebtn create_btn" onClick={handleAdd}  >
           Create Category
         </Button>
         </div>

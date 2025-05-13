@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Modal, Form, Input, Button, Spin } from "antd";
+import { Modal, Form, Input, Button, Spin, Select } from "antd";
 import toast from "react-hot-toast";
 import { handleCreateStaffApi } from "../../utils/services";
 
+const { Option } = Select;
+
 const AddStaffModal = ({ visible, onCancel, fetchStaffList }) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false); // State to track loading
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (values) => {
         setLoading(true);
@@ -13,7 +15,7 @@ const AddStaffModal = ({ visible, onCancel, fetchStaffList }) => {
             await handleCreateStaffApi(values);
             toast.success("Successfully created!");
             form.resetFields();
-            fetchStaffList()
+            fetchStaffList();
             onCancel();
         } catch (error) {
             toast.error(error.errors?.non_field_errors?.[0] || "Something went wrong");
@@ -65,6 +67,22 @@ const AddStaffModal = ({ visible, onCancel, fetchStaffList }) => {
                     ]}
                 >
                     <Input placeholder="Enter email" disabled={loading} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Role"
+                    name="role"
+                    rules={[{ required: true, message: "Role is required" }]}
+                >
+                    <Select placeholder="Select role" disabled={loading}>
+                        <Option value={4}>Customer Support</Option>
+                        <Option value={6}>Sales</Option>
+                        <Option value={7}>Marketing</Option>
+                        <Option value={8}>Content Manager</Option>
+                        <Option value={9}>Finance</Option>
+                        <Option value={5}>Sub Admin</Option>
+                  
+                    </Select>
                 </Form.Item>
 
                 <Form.Item

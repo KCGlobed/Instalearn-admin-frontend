@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Table, Button, Input, Image, Tag, Switch, Drawer } from "antd";
 import { useNavigate } from "react-router-dom";
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { ModalContext } from "../../../Context";
 import { handleCourseListApi } from "../../../utils/services";
 import AddCourseModal from "../../modals/AddCourseModal";
@@ -127,7 +127,8 @@ const Course = () => {
             fixed: "right",
             render: (item) => (
                   <div className="action-buttons">
-                    <Button type="primary" onClick={() => showDrawer(item)} icon={<PlusCircleOutlined />} />
+                    <Button type="primary" onClick={() => showDrawer(item)}   icon={<SettingOutlined style={{ color: "white" }} />} />
+                    
                    <Button
                       type="text"
                       icon={<EyeOutlined style={{ color: "white" }} />}
@@ -182,7 +183,7 @@ const Course = () => {
                         Search
                     </Button>
                 </div>
-                <Button type="default" onClick={() => navigate("/create-course")}>
+                <Button type="default" className="create_btn" onClick={() => navigate("/create-course")}>
                     Create Course
                 </Button>
             </div>
@@ -205,15 +206,15 @@ const Course = () => {
             >
                 {currentCourse && (
                     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                        {renderActionButton("Assign Chapter", {
+                        {/* {renderActionButton("Assign Chapter", {
                             bg: "#f0f4ff",
                             text: "#1e40af",
                             border: "#d0dbff",
                         }, () => {
-                            // navigate(`/assign-chapter/${currentCourse.id}`);
-                            navigate(`/chapter-transfer`);
+                            navigate(`/assign-chapter/${currentCourse.id}`);
+                            // navigate(`/chapter-transfer`);
                             closeDrawer();
-                        })}
+                        })} */}
 
                         {renderActionButton("Assign Preview Videos", {
                             bg: "#fff0f6",
@@ -223,20 +224,37 @@ const Course = () => {
                             navigate(`/assign-preview-video/${currentCourse.id}`);
                             closeDrawer();
                         })}
-                         {renderActionButton("Assign Instructor", {
+                         {/* {renderActionButton("Assign Instructor", {
                             bg: "#fff0f6",
                             text: "#c41d7f",
                             border: "#f5c2d5",
                         }, () => {
                             // navigate(`/assign-preview-video/${currentCourse.id}`);
                             closeDrawer();
-                        })}
+                        })} */}
                         {renderActionButton("Assign Related Course", {
                             bg: "#fff0f6",
                             text: "#c41d7f",
                             border: "#f5c2d5",
                         }, () => {
                             navigate(`/assign-related-course/${currentCourse.id}`);
+                            closeDrawer();
+                        })}
+                         {renderActionButton("Assign Instructor", {
+                            bg: "#fff0f6",
+                            text: "#c41d7f",
+                            border: "#f5c2d5",
+                        }, () => {
+                            navigate(`/assign-instructor/${currentCourse.id}`);
+                            closeDrawer();
+                        })}
+
+                        {renderActionButton("Assign Course FAQ", {
+                            bg: "#fff0f6",
+                            text: "#c41d7f",
+                            border: "#f5c2d5",
+                        }, () => {
+                            navigate(`/assign-faq/${currentCourse.id}`);
                             closeDrawer();
                         })}
 

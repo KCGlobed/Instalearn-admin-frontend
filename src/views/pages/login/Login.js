@@ -34,7 +34,12 @@ const Login = () => {
       const response = await axios.post(
         `${BASE_URL}/users/login/`,
         { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': '' // 🟢 explicitly unset Authorization
+          }
+        }
       );
 
       if (response.data.status === 'success') {

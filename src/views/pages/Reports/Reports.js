@@ -1,72 +1,107 @@
 import React from "react";
-import { CTab, CTabContent, CTabList, CTabPanel, CTabs } from '@coreui/react'
+import { Tabs } from 'antd';
+import { 
+  UserOutlined,
+  TeamOutlined,
+  TagOutlined,
+  LockOutlined,
+  SafetyCertificateOutlined,
+  ProfileOutlined,
+  BellOutlined
+} from '@ant-design/icons';
 import UserReport from "./UserReport";
 import CorporateReport from "./CorporateReport";
 import DiscountReport from "./DiscountReport";
 import PasswordReport from "./PasswordReport";
 import BadgeReport from "./BadgeReport";
 import ProfileReport from "./ProfileReport";
-const tabsData = [{
-  id: 1,
-  itemKey: "home",
-  itemName: "user",
-  component: <UserReport />
- },
-{
-  id: 2,
-  itemKey: "corporate",
-  itemName: "Corp reg",
-  component: <CorporateReport />
-},
-{
-  id: 3,
-  itemKey: "discount",
-  itemName: "Discount coupan ",
-  component: <DiscountReport />
-},
-{
-  id: 4,
-  itemKey: "change_pass",
-  itemName: "Change Password",
-  component: <PasswordReport />
-},
-{
-  id: 5,
-  itemKey: "badge",
-  itemName: "Badge Issue",
-  component: <BadgeReport />
-},
-{
-  id: 7,
-  itemKey: "profile",
-  itemName: "Profile",
-  component: <ProfileReport />
-},
-{
-  id: 8,
-  itemKey: "notifications",
-  itemName: "Notifications",
-  component: <PasswordReport />
-},
-]
 
 const Tableview = () => {
-  return (
-    <>
-      <CTabs activeItemKey="home">
-        <CTabList variant="tabs">
-          {
-            tabsData && tabsData?.map((item) => <CTab  key={item.id} itemKey={item.itemKey}>{item.itemName}</CTab>)
-          }
-        </CTabList>
-        <CTabContent>
-          {
-            tabsData && tabsData?.map((item) => <CTabPanel key={item.id} className="p-3" itemKey={item.itemKey}>{item.component}</CTabPanel>)
-          }
-        </CTabContent>
-      </CTabs>
+  const [alignValue] = React.useState('center');
+  
+  const items = [
+    {
+      key: "home",
+      label: (
+        <span>
+          <UserOutlined style={{ marginRight: 8 }} />
+          User
+        </span>
+      ),
+      children: <UserReport />,
+    },
+    {
+      key: "corporate",
+      label: (
+        <span>
+          <TeamOutlined style={{ marginRight: 8 }} />
+          Corp reg
+        </span>
+      ),
+      children: <CorporateReport />,
+    },
+    {
+      key: "discount",
+      label: (
+        <span>
+          <TagOutlined style={{ marginRight: 8 }} />
+          Discount coupon
+        </span>
+      ),
+      children: <DiscountReport />,
+    },
+    {
+      key: "change_pass",
+      label: (
+        <span>
+          <LockOutlined style={{ marginRight: 8 }} />
+          Change Password
+        </span>
+      ),
+      children: <PasswordReport />,
+    },
+    {
+      key: "badge",
+      label: (
+        <span>
+          <SafetyCertificateOutlined style={{ marginRight: 8 }} />
+          Badge Issue
+        </span>
+      ),
+      children: <BadgeReport />,
+    },
+    {
+      key: "profile",
+      label: (
+        <span>
+          <ProfileOutlined style={{ marginRight: 8 }} />
+          Profile
+        </span>
+      ),
+      children: <ProfileReport />,
+    },
+    {
+      key: "notifications",
+      label: (
+        <span>
+          <BellOutlined style={{ marginRight: 8 }} />
+          Notifications
+        </span>
+      ),
+      children: <PasswordReport />, // Consider creating a NotificationsReport component
+    },
+  ];
 
-    </>
+  return (
+    <Tabs
+      defaultActiveKey="home"
+      items={items}
+      className="custom-tabs"
+      indicator={{
+        size: (origin) => origin + 20,
+        align: alignValue
+      }}
+    />
   );
 };
 
